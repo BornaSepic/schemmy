@@ -9,13 +9,19 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/styles": "latest",
     "next": "9.4.4",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "styled-jsx": "latest"
   },
   "devDependencies": {
     "@types/node": "^14.0.22",
     "@types/react": "^16.9.43",
+    "babel-plugin-styled-components": "^1.10.7",
+    "next-page-transitions": "^1.0.0-beta.2",
+    "styled-components": "^5.1.1",
     "typescript": "^3.9.6"
   }
 }
