@@ -14,8 +14,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import {ComponentEditor} from "./sub-components/component-editor/ComponentEditor";
 
-export const SchemaEditor = () => {
-    const [settingsComponents, setSettingsComponents] = useState([]);
+export const SchemaEditor = (props) => {
     const [blocksComponents, setBlocksComponents] = useState([]);
     const [editedComponent, setEditedComponent] = useState(undefined);
 
@@ -24,19 +23,19 @@ export const SchemaEditor = () => {
     };
 
     const componentSelectionHandler = (component) => {
-        const updatedSettingsComponents = [...settingsComponents, component];
-        setSettingsComponents(updatedSettingsComponents);
+        const updatedSettingsComponents = [...props.settings, component];
+        props.settingsUpdate(updatedSettingsComponents);
     };
 
     const componentRemovalHandler = (indexToRemove) => {
-        const updatedSettingsComponents = [...settingsComponents].filter((component, index) => {
+        const updatedSettingsComponents = [...props.settings].filter((component, index) => {
             return index !== indexToRemove;
         });
-        setSettingsComponents(updatedSettingsComponents);
+        props.settingsUpdate(updatedSettingsComponents);
     };
 
     const componentEditHandler = (indexToEdit) => {
-        setEditedComponent(settingsComponents[indexToEdit]);
+        setEditedComponent(props.settings[indexToEdit]);
     };
 
     const editorCloseHandler = () => {
@@ -56,7 +55,7 @@ export const SchemaEditor = () => {
                     Settings
                 </Typography>
                 <List>
-                    {settingsComponents.map((component, index) => {
+                    {props.settings.map((component, index) => {
                         return (
                             <Styled.ComponentListItem key={component.type + "_" + index}>
                                 <ListItemText primary={component.settings["label"] ? component.settings["label"] + " | " + component.label : component.label}/>

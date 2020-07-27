@@ -3,7 +3,8 @@ import {Paper} from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 
 export const SchemaEditorContainer = styled('div')`
-    max-width: 620px;
+    max-width: 580px;
+    width: 100%;
     
     Paper + Paper {
         margin-top: 40px;

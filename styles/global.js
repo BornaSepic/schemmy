@@ -30,6 +30,10 @@ export const GlobalStyle = createGlobalStyle`
         background: ;
         padding: 35px;
         overflow-x: hidden;
+        display: flex;
+        justify-content: space-around;
+        max-width: 1280px;
+        margin: auto;
     }
     
     h1,

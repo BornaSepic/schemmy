@@ -1,11 +1,11 @@
 import React from "react";
 import Layout from "../../components/layout/Layout";
-import {SchemaEditor} from "../../components/schema-editor/SchemaEditor";
+import {AppContainer} from "../../components/app-container/AppContainer";
 
 export default function App() {
     return (
         <Layout>
-            <SchemaEditor/>
+            <AppContainer/>
         </Layout>
     );
 }
