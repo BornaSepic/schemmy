@@ -17,7 +17,34 @@ export const ComponentEditor = (props) => {
     };
 
     const propertyUpdateHandler = (property, value) => {
-        props.component.data[property] = value;
+        const component = {...props.component};
+        component.settings[property] = value;
+
+        props.onEdit(component)
+    };
+
+    const optionsPropertyUpdateHandler = (property, index, value) => {
+        const component = {...props.component};
+
+        component.settings.options[index][property] = value;
+
+        props.onEdit(component);
+    };
+
+    const optionsPropertyAdditionHandler = () => {
+        const component = {...props.component};
+        component.settings.options = [...component.settings.options, {value: "", key: ""}];
+
+        props.onEdit(component)
+    };
+
+    const optionsPropertyRemovalHandler = () => {
+        const component = {...props.component};
+
+        if (component.settings.options.length > 1) {
+            component.settings.options = [...component.settings.options.slice(0, -1)]
+            props.onEdit(component)
+        }
     };
 
     return (
@@ -30,11 +57,12 @@ export const ComponentEditor = (props) => {
             <DialogTitle id="simple-dialog-title">Edit your component</DialogTitle>
             <Divider/>
             <List>
-                {props.component.settings.map(setting => {
+                {Object.keys(props.component.settings).map(setting => {
                     return setting !== "options" ? (
                         <Styled.ComponentListItem key={setting}>
                             <TextField fullWidth={true}
-                                       label={setting} defaultValue={props.component.data[setting]} variant="outlined"
+                                       label={setting} defaultValue={props.component.settings[setting]}
+                                       variant="outlined"
                                        onChange={(e) => propertyUpdateHandler(setting, e.target.value)}/>
                         </Styled.ComponentListItem>
                     ) : (
@@ -42,18 +70,26 @@ export const ComponentEditor = (props) => {
                             <Styled.SubListTitle component={"h6"} variant={"h6"}>
                                 Options:
                             </Styled.SubListTitle>
-                            <Styled.SubListComponentListItem key={setting}>
-                                <TextField fullWidth={true}
-                                           label={"Value"}/>
-                                <TextField fullWidth={true}
-                                           label={"Label"}/>
-                            </Styled.SubListComponentListItem>
+                            {props.component.settings.options.map((option, index) => (
+                                <Styled.SubListComponentListItem key={setting + "_" + index}>
+                                    <TextField fullWidth={true}
+                                               defaultValue={option.value}
+                                               label={"Value"}
+                                               onChange={(e) => optionsPropertyUpdateHandler("value", index, e.target.value)}
+                                    />
+                                    <TextField fullWidth={true}
+                                               defaultValue={option.key}
+                                               label={"Key"}
+                                               onChange={(e) => optionsPropertyUpdateHandler("key", index, e.target.value)}
+                                    />
+                                </Styled.SubListComponentListItem>
+                            ))}
                             <Styled.SubListActionsContainer fullWidth={true} variant="text" color="primary"
                                                             aria-label="text primary button group">
-                                <IconButton>
+                                <IconButton onClick={() => optionsPropertyRemovalHandler()}>
                                     <RemoveCircleIcon/>
                                 </IconButton>
-                                <IconButton>
+                                <IconButton onClick={() => optionsPropertyAdditionHandler()}>
                                     <AddCircleIcon/>
                                 </IconButton>
                             </Styled.SubListActionsContainer>

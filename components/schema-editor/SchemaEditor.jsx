@@ -43,6 +43,10 @@ export const SchemaEditor = () => {
         setEditedComponent(undefined);
     };
 
+    const editorUpdateComponentHandler = (updatedComponent) => {
+        setEditedComponent(updatedComponent);
+    };
+
     return (
         <Styled.SchemaEditorContainer>
             <Styled.ElevatedContainer elevation={2}>
@@ -55,7 +59,7 @@ export const SchemaEditor = () => {
                     {settingsComponents.map((component, index) => {
                         return (
                             <Styled.ComponentListItem key={component.type + "_" + index}>
-                                <ListItemText primary={component.data["label"] ? component.data["label"] + " | " + component.label : component.label}/>
+                                <ListItemText primary={component.settings["label"] ? component.settings["label"] + " | " + component.label : component.label}/>
                                 <ListItemSecondaryAction>
                                     <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
                                         <IconButton onClick={() => componentEditHandler(index)}>
@@ -71,7 +75,7 @@ export const SchemaEditor = () => {
                     })}
                 </List>
                 <ComponentPicker onComponentSelect={componentSelectionHandler}/>
-                {editedComponent ? <ComponentEditor component={editedComponent} onEditorClose={editorCloseHandler} /> : null}
+                {editedComponent ? <ComponentEditor component={editedComponent} onEditorClose={editorCloseHandler} onEdit={editorUpdateComponentHandler} /> : null}
             </Styled.ElevatedContainer>
         </Styled.SchemaEditorContainer>
     )

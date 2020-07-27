@@ -14,98 +14,88 @@ export const ComponentPicker = (props) => {
         {
             type: "text",
             label: "Text",
-            settings: [
-                "id",
-                "label",
-                "default",
-                "info",
-                "placeholder"
-            ],
-            data: {
-
+            settings: {
+                "id": "",
+                "label": "",
+                "default": "",
+                "info": "",
+                "placeholder": "",
             }
         },
         {
             type: "textarea",
             label: "Textarea",
-            settings: [
-                "id",
-                "label",
-                "default",
-                "info",
-                "placeholder"
-            ],
-            data: {
-
+            settings: {
+                "id": "",
+                "label": "",
+                "default": "",
+                "info": "",
+                "placeholder": ""
             }
         },
         {
             type: "image_picker",
             label: "Image Picker",
-            settings: [
-                "id",
-                "label"
-            ],
-            data: {
-
+            settings: {
+                "id": "",
+                "label": ""
             }
         },
         {
             type: "radio",
             label: "Radio",
-            settings: [
-                "id",
-                "label",
-                "options",
-                "default",
-                "info"
-            ],
-            data: {
-
+            settings: {
+                "id": "",
+                "label": "",
+                "options": [
+                    {
+                        key: "",
+                        value: ""
+                    }
+                ],
+                "default": "",
+                "info": ""
             }
         },
         {
             type: "select",
             label: "Select",
-            settings: [
-                "id",
-                "label",
-                "options",
-                "default",
-                "info"
-            ],
-            data: {
-
+            settings: {
+                "id": "",
+                "label": "",
+                "options": [
+                    {
+                        key: "",
+                        value: ""
+                    }
+                ],
+                "default": "",
+                "info": "",
             }
         },
         {
             type: "checkbox",
             label: "Checkbox",
-            settings: [
-                "id",
-                "label",
-                "default",
-                "info"
-            ],
-            data: {
-
+            settings: {
+                "id": "",
+                "label": "",
+                "default": "",
+                "info": ""
             }
         },
         {
             type: "range",
             label: "Range",
-            settings: [
-                "id",
-                "min",
-                "max",
-                "step",
-                "unit",
-                "label",
-                "default"
-            ],
-            data: {
-
+            settings: {
+                "id": "",
+                "min": "",
+                "max": "",
+                "step": "",
+                "unit": "",
+                "label": "",
+                "default": "",
             }
+
         }
     ];
 
