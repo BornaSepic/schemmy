@@ -5,7 +5,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import {useState} from "react";
+import React, {useState} from "react";
+import Divider from "@material-ui/core/Divider";
+import DialogActions from "@material-ui/core/DialogActions";
 
 export const ComponentPicker = (props) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -119,6 +121,7 @@ export const ComponentPicker = (props) => {
             </Button>
             <Dialog onClose={handlePickerClose} aria-labelledby="simple-dialog-title" open={isOpen}>
                 <DialogTitle id="simple-dialog-title">Select your component</DialogTitle>
+                <Divider/>
                 <List>
                     {componentsData.map(component => {
                         return (
@@ -128,7 +131,12 @@ export const ComponentPicker = (props) => {
                         )
                     })}
                 </List>
+                <Divider/>
+                <DialogActions>
+                    <Button variant="text" color="primary" onClick={handlePickerClose}>Close</Button>
+                </DialogActions>
             </Dialog>
+
         </Styled.ComponentPickerContainer>
     );
 };
