@@ -15,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import {ComponentEditor} from "./sub-components/component-editor/ComponentEditor";
 
 export const SchemaEditor = (props) => {
+    const [indexToEdit, setIndexToEdit] = useState(0);
     const [blocksComponents, setBlocksComponents] = useState([]);
     const [editedComponent, setEditedComponent] = useState(undefined);
 
@@ -35,6 +36,7 @@ export const SchemaEditor = (props) => {
     };
 
     const componentEditHandler = (indexToEdit) => {
+        setIndexToEdit(indexToEdit);
         setEditedComponent(props.settings[indexToEdit]);
     };
 
@@ -44,6 +46,10 @@ export const SchemaEditor = (props) => {
 
     const editorUpdateComponentHandler = (updatedComponent) => {
         setEditedComponent(updatedComponent);
+
+        const settings = [...props.settings];
+        settings[indexToEdit] = updatedComponent;
+        props.settingsUpdate(settings);
     };
 
     return (
