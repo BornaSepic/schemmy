@@ -10,7 +10,10 @@ export const SchemaDisplay = (props) => {
                 rows={30}
                 aria-label="maximum height"
                 placeholder="Maximum 4 rows"
-                value={JSON.stringify(props.settings, null, 4)}
+                value={JSON.stringify({
+                    name: props.schemaName,
+                    settings: props.settings
+                }, null, 4)}
             />
         </Styled.SchemaDisplayContainer>
     );

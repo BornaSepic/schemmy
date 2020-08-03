@@ -19,8 +19,8 @@ export const SchemaEditor = (props) => {
     const [blocksComponents, setBlocksComponents] = useState([]);
     const [editedComponent, setEditedComponent] = useState(undefined);
 
-    const nameChangeHandler = () => {
-        console.log('test')
+    const nameChangeHandler = (name) => {
+        props.schemaNameUpdate(name);
     };
 
     const componentSelectionHandler = (component) => {
@@ -55,8 +55,9 @@ export const SchemaEditor = (props) => {
     return (
         <Styled.SchemaEditorContainer>
             <Styled.ElevatedContainer elevation={2}>
-                {/*<TextField label="Name" variant="outlined" onChange={nameChangeHandler}/>*/}
-
+               <TextField fullWidth={true} label="Name" variant="outlined" onChange={(e => nameChangeHandler(e.target.value))}/>
+            </Styled.ElevatedContainer>
+            <Styled.ElevatedContainer elevation={2}>
                 <Typography variant={"h5"}>
                     Settings
                 </Typography>
@@ -81,6 +82,31 @@ export const SchemaEditor = (props) => {
                 </List>
                 <ComponentPicker onComponentSelect={componentSelectionHandler}/>
                 {editedComponent ? <ComponentEditor component={editedComponent} onEditorClose={editorCloseHandler} onEdit={editorUpdateComponentHandler} /> : null}
+            </Styled.ElevatedContainer>
+            <Styled.ElevatedContainer elevation={2}>
+                <Typography variant={"h5"}>
+                    Blocks
+                </Typography>
+                <List>
+                    {props.blocks.map((component, index) => {
+                        return (
+                            <Styled.ComponentListItem key={component.type + "_" + index}>
+                                <ListItemText primary={component.settings["label"] ? component.settings["label"] + " | " + component.label : component.label}/>
+                                <ListItemSecondaryAction>
+                                    <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
+                                        <IconButton onClick={() => componentEditHandler(index)}>
+                                            <EditIcon/>
+                                        </IconButton>
+                                        <IconButton onClick={() => componentRemovalHandler(index)}>
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                    </ButtonGroup>
+                                </ListItemSecondaryAction>
+                            </Styled.ComponentListItem>
+                        )
+                    })}
+                </List>
+                <ComponentPicker onComponentSelect={componentSelectionHandler}/>
             </Styled.ElevatedContainer>
         </Styled.SchemaEditorContainer>
     )

@@ -13,7 +13,7 @@ export const SchemaEditorContainer = styled('div')`
 
 export const ElevatedContainer = styled(Paper)`
     & + & {
-        margin-top: 40px;
+        margin-top: 20px;
     }
     
     padding: 35px;
