@@ -19,6 +19,12 @@ export const ElevatedContainer = styled(Paper)`
     padding: 35px;
 `;
 
+export const BlockListItem = styled(ListItem)`
+    position: relative;
+    background: #f4f6f8;
+    
+`;
+
 export const ComponentListItem = styled(ListItem)`
     background-color: #f4f6f8;
 `;

@@ -16,7 +16,7 @@ export const AppContainer = () => {
                 blocksUpdate={setBlocksComponents}
                 schemaNameUpdate={setSchemaName}
             />
-            <SchemaDisplay settings={settingsComponents} schemaName={schemaName}/>
+            <SchemaDisplay blocks={blocksComponents} settings={settingsComponents} schemaName={schemaName}/>
         </>
     );
 };

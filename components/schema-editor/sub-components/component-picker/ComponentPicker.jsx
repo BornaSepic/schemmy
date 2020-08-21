@@ -49,14 +49,14 @@ export const ComponentPicker = (props) => {
             settings: {
                 "id": "",
                 "label": "",
+                "info": "",
+                "default": "",
                 "options": [
                     {
                         key: "",
                         value: ""
                     }
                 ],
-                "default": "",
-                "info": ""
             }
         },
         {
@@ -65,14 +65,14 @@ export const ComponentPicker = (props) => {
             settings: {
                 "id": "",
                 "label": "",
+                "info": "",
+                "default": "",
                 "options": [
                     {
                         key: "",
                         value: ""
                     }
                 ],
-                "default": "",
-                "info": "",
             }
         },
         {
