@@ -20,8 +20,6 @@ export const SchemaDisplay = (props) => {
                 rows={30}
 
                 readOnly={true}
-                aria-label="maximum height"
-                placeholder="Maximum 4 rows"
                 value={JSON.stringify({
                     name: props.schemaName,
                     settings: settingsComponents,
