@@ -4,7 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import React, {useState} from "react";
 import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,13 +11,16 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
 import {ComponentEditor} from "./sub-components/component-editor/ComponentEditor";
 import Button from "@material-ui/core/Button";
 
 export const SchemaEditor = (props) => {
+    const [componentPickerOpened, setComponentPickerOpened] = useState(false);
     const [indexToEdit, setIndexToEdit] = useState(0);
-    const [blocksComponents, setBlocksComponents] = useState([]);
     const [editedComponent, setEditedComponent] = useState(undefined);
+
+    const [editedBlockIndex, setEditedBlockIndex] = useState(0);
 
     const nameChangeHandler = (name) => {
         props.schemaNameUpdate(name);
@@ -63,6 +65,18 @@ export const SchemaEditor = (props) => {
       props.blocksUpdate([...props.blocks, newBlock]);
     };
 
+    const blockEditHandler = () => {
+
+    };
+
+    const blockRemovalHandler = () => {
+
+    };
+
+    const blockSettingsAddHandler = (index) => {
+        setEditedBlockIndex(index);
+    };
+
     return (
         <Styled.SchemaEditorContainer>
             <Styled.ElevatedContainer elevation={2}>
@@ -93,7 +107,7 @@ export const SchemaEditor = (props) => {
                         )
                     })}
                 </List>
-                <ComponentPicker onComponentSelect={componentSelectionHandler}/>
+                <ComponentPicker onComponentSelect={componentSelectionHandler} opened={componentPickerOpened} setOpened={setComponentPickerOpened}/>
                 {editedComponent ? <ComponentEditor component={editedComponent} onEditorClose={editorCloseHandler}
                                                     onEdit={editorUpdateComponentHandler}/> : null}
             </Styled.ElevatedContainer>
@@ -109,11 +123,14 @@ export const SchemaEditor = (props) => {
                                     primary={block.name ? block.name + " | " + block.type : `Block ${index}`}/>
                                 <ListItemSecondaryAction>
                                     <ButtonGroup variant="text" color="primary" aria-label="text primary button group">
-                                        <IconButton onClick={() => componentEditHandler(index)}>
+                                        <IconButton onClick={() => blockEditHandler(index)}>
                                             <EditIcon/>
                                         </IconButton>
-                                        <IconButton onClick={() => componentRemovalHandler(index)}>
+                                        <IconButton onClick={() => blockRemovalHandler(index)}>
                                             <DeleteIcon/>
+                                        </IconButton>
+                                        <IconButton onClick={() => blockSettingsAddHandler(index)}>
+                                            <AddIcon/>
                                         </IconButton>
                                     </ButtonGroup>
                                 </ListItemSecondaryAction>

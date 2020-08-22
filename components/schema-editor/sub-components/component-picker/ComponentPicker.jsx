@@ -102,11 +102,11 @@ export const ComponentPicker = (props) => {
     ];
 
     const handlePickerOpen = () => {
-        setIsOpen(true);
+        props.setOpened(true);
     };
 
-    const handlePickerClose = (component) => {
-        setIsOpen(false);
+    const handlePickerClose = () => {
+        props.setOpened(false);
     };
 
     const handleComponentSelection = (component) => {
@@ -119,7 +119,7 @@ export const ComponentPicker = (props) => {
             <Button variant="contained" color="primary" onClick={handlePickerOpen}>
                 + Add a settings element
             </Button>
-            <Dialog onClose={handlePickerClose} aria-labelledby="simple-dialog-title" open={isOpen}>
+            <Dialog onClose={handlePickerClose} aria-labelledby="simple-dialog-title" open={props.opened}>
                 <DialogTitle id="simple-dialog-title">Select your component</DialogTitle>
                 <Divider/>
                 <List>

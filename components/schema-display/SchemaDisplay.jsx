@@ -1,7 +1,17 @@
 import * as Styled from "./SchemaDisplay.css.js";
-import TextField from "@material-ui/core/TextField";
+import {useEffect, useState} from "react";
 
 export const SchemaDisplay = (props) => {
+    const [settingsComponents, setSettingsComponents] = useState([]);
+
+    useEffect(() => {
+        const formattedSettingsComponents = props.settings.map(setting => {
+          return {type: setting.type, ...setting.settings};
+        });
+
+        setSettingsComponents(formattedSettingsComponents)
+    }, [props.settings]);
+
     return (
         <Styled.SchemaDisplayContainer>
             <Styled.SchemaDisplay
@@ -14,7 +24,7 @@ export const SchemaDisplay = (props) => {
                 placeholder="Maximum 4 rows"
                 value={JSON.stringify({
                     name: props.schemaName,
-                    settings: props.settings,
+                    settings: settingsComponents,
                     blocks: props.blocks
                 }, null, 4)}
             />
