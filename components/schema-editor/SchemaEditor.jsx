@@ -14,10 +14,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import {ComponentEditor} from "./sub-components/component-editor/ComponentEditor";
 import Button from "@material-ui/core/Button";
+import {BlockEditor} from "./sub-components/block-editor/BlockEditor";
 
 export const SchemaEditor = (props) => {
     const [componentPickerOpened, setComponentPickerOpened] = useState(false);
     const [editedComponent, setEditedComponent] = useState(undefined);
+
+    const [editedBlock, setEditedBlock] = useState(undefined);
 
     const [componentIndexToEdit, setComponentIndexToEdit] = useState(undefined);
     const [editedBlockIndex, setEditedBlockIndex] = useState(undefined);
@@ -43,11 +46,18 @@ export const SchemaEditor = (props) => {
         props.settingsUpdate(updatedSettingsComponents);
     };
 
-    const componentRemovalHandler = (indexToRemove) => {
-        const updatedSettingsComponents = [...props.settings].filter((component, index) => {
-            return index !== indexToRemove;
-        });
-        props.settingsUpdate(updatedSettingsComponents);
+    const componentRemovalHandler = (indexToRemove, blockIndexToEdit) => {
+        if (isNaN(blockIndexToEdit)) {
+            const updatedSettingsComponents = [...props.settings].filter((component, index) => {
+                return index !== indexToRemove;
+            });
+            props.settingsUpdate(updatedSettingsComponents);
+        } else {
+            const updatedBlocks = [...props.blocks];
+
+            updatedBlocks[blockIndexToEdit].settings = updatedBlocks[blockIndexToEdit].settings.filter((setting, index) => index !== indexToRemove);
+            props.blocksUpdate(updatedBlocks);
+        }
     };
 
     const componentEditHandler = (newComponentIndexToEdit, newBlockIndexToEdit) => {
@@ -70,7 +80,6 @@ export const SchemaEditor = (props) => {
 
     const editorUpdateComponentHandler = (updatedComponent) => {
         setEditedComponent(updatedComponent);
-
         if (isNaN(editedBlockIndex)) {
             const settings = [...props.settings];
             settings[componentIndexToEdit] = updatedComponent;
@@ -94,10 +103,26 @@ export const SchemaEditor = (props) => {
 
     const blockEditHandler = (index) => {
         setEditedBlockIndex(index);
+        setEditedBlock(props.blocks[index])
     };
 
-    const blockRemovalHandler = () => {
 
+    const blockEditorCloseHandler = () => {
+        setEditedBlockIndex(undefined);
+        setEditedBlock(undefined);
+    };
+
+    const blockEditorUpdateHandler = (updatedBlock) => {
+        setEditedBlock(updatedBlock);
+        const blocks = [...props.blocks];
+        blocks[editedBlockIndex] = updatedBlock;
+
+        props.blocksUpdate(blocks);
+    };
+
+    const blockRemovalHandler = (blockIndexToRemove) => {
+        const updatedBlocks = props.blocks.filter((block, index) => index !== blockIndexToRemove);
+        props.blocksUpdate(updatedBlocks);
     };
 
     const blockSettingsAddHandler = (index) => {
@@ -118,7 +143,7 @@ export const SchemaEditor = (props) => {
                 <List>
                     {props.settings.map((component, index) => {
                         return (
-                            <Styled.ComponentListItem key={component.type + "_" + index}>
+                            <Styled.ComponentListItem key={component.type + "_setting" + "_" + index}>
                                 <ListItemText
                                     primary={component.settings["label"] ? component.settings["label"] + " | " + component.label : component.label}/>
                                 <ListItemSecondaryAction>
@@ -146,10 +171,10 @@ export const SchemaEditor = (props) => {
                 <List>
                     {props.blocks.map((block, blockIndex) => {
                         return (
-                            <>
+                            <Styled.BlockContainer key={`block_${blockIndex}`}>
                                 <Styled.BlockListItem>
                                     <ListItemText
-                                        primary={block.name ? block.name + " | " + block.type : `Block ${blockIndex}`}/>
+                                        primary={block.name && block.type ? block.name + " | " + block.type : block.name ? block.name : (block.type ? block.type : `Block ${blockIndex}`)}/>
                                     <ListItemSecondaryAction>
                                         <ButtonGroup variant="text" color="primary"
                                                      aria-label="text primary button group">
@@ -187,7 +212,7 @@ export const SchemaEditor = (props) => {
                                         </Styled.ComponentListItem>
                                     ))}
                                 </Styled.BlockSettingsContainer>
-                            </>
+                            </Styled.BlockContainer>
                         )
                     })}
                 </List>
@@ -199,6 +224,7 @@ export const SchemaEditor = (props) => {
                              setOpened={setComponentPickerOpened}/>
             {editedComponent ? <ComponentEditor component={editedComponent} onEditorClose={editorCloseHandler}
                                                 onEdit={editorUpdateComponentHandler}/> : null}
+            {editedBlock ? <BlockEditor component={editedBlock} onEditorClose={blockEditorCloseHandler} onEdit={blockEditorUpdateHandler} /> : null}
         </Styled.SchemaEditorContainer>
     )
 };

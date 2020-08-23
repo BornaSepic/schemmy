@@ -12,6 +12,10 @@ export const SchemaEditorContainer = styled('div')`
     } 
 `;
 
+export const BlockContainer = styled('div')`
+
+`;
+
 export const ElevatedContainer = styled(Paper)`
     & + & {
         margin-top: 20px;
