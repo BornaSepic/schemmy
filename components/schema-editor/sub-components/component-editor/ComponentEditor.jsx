@@ -58,7 +58,14 @@ export const ComponentEditor = (props) => {
             <Divider/>
             <List>
                 {Object.keys(props.component.settings).map(setting => {
-                    return setting !== "options" ? (
+                    return setting === "accept" ? (
+                        <Styled.ComponentListItem key={setting}>
+                            <TextField fullWidth={true}
+                                       label={setting} defaultValue={props.component.settings[setting]}
+                                       variant="outlined"
+                                       onChange={(e) => propertyUpdateHandler(setting, e.target.value.split(","))}/>
+                        </Styled.ComponentListItem>
+                    ) : (setting !== "options" ? (
                         <Styled.ComponentListItem key={setting}>
                             <TextField fullWidth={true}
                                        label={setting} defaultValue={props.component.settings[setting]}
@@ -94,7 +101,7 @@ export const ComponentEditor = (props) => {
                                 </IconButton>
                             </Styled.SubListActionsContainer>
                         </List>
-                    )
+                    ))
                 })}
             </List>
             <Divider/>

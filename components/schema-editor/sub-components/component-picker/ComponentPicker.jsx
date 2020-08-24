@@ -98,6 +98,123 @@ export const ComponentPicker = (props) => {
                 "default": "",
             }
 
+        },
+        {
+            type: "color",
+            label: "Color picker",
+            settings: {
+                "id": "",
+                "label": "",
+                "default": "",
+                "info": ""
+            }
+        },
+        {
+            type: "font_picker",
+            label: "Font picker",
+            settings: {
+                "id": "",
+                "label": "",
+                "default": "",
+                "info": ""
+            }
+        },
+        {
+            type: "collection",
+            label: "Collection",
+            settings: {
+                "id": "",
+                "label": "",
+                "info": ""
+            }
+        },
+        {
+            type: "product",
+            label: "Product",
+            settings: {
+                "id": "",
+                "label": "",
+                "info": ""
+            }
+        },
+        {
+            type: "page",
+            label: "Page",
+            settings: {
+                "id": "",
+                "label": "",
+                "info": ""
+            }
+        },
+        {
+            type: "list_list",
+            label: "Link list",
+            settings: {
+                "id": "",
+                "label": "",
+                "info": ""
+            }
+        },
+        {
+            type: "url",
+            label: "URL",
+            settings: {
+                "id": "",
+                "label": ""
+            }
+        },
+        {
+            type: "video_url",
+            label: "Video",
+            settings: {
+                "id": "",
+                "label": "",
+                "accept": ["youtube", "vimeo"],
+                "default": "",
+                "info": "",
+                "placeholder": ""
+            }
+        },
+        {
+            type: "richtext",
+            label: "Rich text",
+            settings: {
+                "id": "",
+                "label": "",
+                "default": ""
+            }
+        },
+        {
+            type: "html",
+            label: "HTML",
+            settings: {
+                "id": "",
+                "label": "",
+                "default": ""
+            }
+        },
+        {
+            type: "article",
+            label: "Article",
+            settings: {
+                "id": "",
+                "label": ""
+            }
+        },
+        {
+            type: "header",
+            label: "Header",
+            settings: {
+                "content": "",
+                "info": ""
+            }
+        },
+        {
+            type: "paragraph",
+            label: "Paragraph",
+            settings: {
+                "content": ""
+            }
         }
     ];
 
@@ -117,15 +234,15 @@ export const ComponentPicker = (props) => {
             <Dialog onClose={handlePickerClose} aria-labelledby="simple-dialog-title" open={props.opened}>
                 <DialogTitle id="simple-dialog-title">Select your component</DialogTitle>
                 <Divider/>
-                <List >
+                <Styled.ComponentPickerList>
                     {componentsData.map(component => {
                         return (
                             <ListItem button onClick={() => handleComponentSelection(component)} key={component.type}>
-                                <ListItemText primary={component.label} />
+                                <ListItemText primary={component.label}/>
                             </ListItem>
                         )
                     })}
-                </List>
+                </Styled.ComponentPickerList>
                 <Divider/>
                 <DialogActions>
                     <Button variant="text" color="primary" onClick={handlePickerClose}>Close</Button>

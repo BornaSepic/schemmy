@@ -22,7 +22,6 @@ export const SchemaDisplay = (props) => {
     useEffect(() => {
         if (CodeMirror && !schemaDisplay.current.retry) {
             const codeMirrorInstance = schemaDisplay.current.getCodeMirror();
-            console.log(codeMirrorInstance)
             codeMirrorInstance.setValue(JSON.stringify({
                 name: props.schemaName,
                 settings: settingsComponents,

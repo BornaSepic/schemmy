@@ -106,7 +106,6 @@ export const SchemaEditor = (props) => {
         setEditedBlock(props.blocks[index])
     };
 
-
     const blockEditorCloseHandler = () => {
         setEditedBlockIndex(undefined);
         setEditedBlock(undefined);
