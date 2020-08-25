@@ -65,6 +65,15 @@ export const ComponentEditor = (props) => {
                                        variant="outlined"
                                        onChange={(e) => propertyUpdateHandler(setting, e.target.value.split(","))}/>
                         </Styled.ComponentListItem>
+                    ) : setting === "min" || setting === "max" || setting === "step" ? (
+                        <Styled.ComponentListItem key={setting}>
+                            <TextField fullWidth={true}
+                                       label={setting} defaultValue={props.component.settings[setting]}
+                                       variant="outlined"
+                                       type={"number"}
+                                       onChange={(e) => propertyUpdateHandler(setting, Math.floor(e.target.value))}
+                            />
+                        </Styled.ComponentListItem>
                     ) : (setting !== "options" ? (
                         <Styled.ComponentListItem key={setting}>
                             <TextField fullWidth={true}

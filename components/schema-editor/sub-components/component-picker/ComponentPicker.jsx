@@ -90,9 +90,9 @@ export const ComponentPicker = (props) => {
             label: "Range",
             settings: {
                 "id": "",
-                "min": "",
-                "max": "",
-                "step": "",
+                "min": 0,
+                "max": 0,
+                "step": 0,
                 "unit": "",
                 "label": "",
                 "default": "",
