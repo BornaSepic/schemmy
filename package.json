@@ -23,6 +23,7 @@
     "@types/react": "^16.9.43",
     "babel-plugin-styled-components": "^1.10.7",
     "next-page-transitions": "^1.0.0-beta.2",
+    "react-beautiful-dnd": "^13.0.0",
     "styled-components": "^5.1.1",
     "typescript": "^3.9.6"
   }

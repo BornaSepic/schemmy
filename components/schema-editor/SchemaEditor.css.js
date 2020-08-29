@@ -37,5 +37,7 @@ export const BlockSettingsContainer = styled(List)`
 
 export const ComponentListItem = styled(ListItem)`
     background-color: #f4f6f8;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 `;
 
