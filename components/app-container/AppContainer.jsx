@@ -3,10 +3,19 @@ import {SchemaEditor} from "../schema-editor/SchemaEditor";
 import {SchemaDisplay} from "../schema-display/SchemaDisplay";
 
 export const AppContainer = () => {
+    const [generalSettings, setGeneralSettings] = useState({
+        name: "",
+        class: "",
+        section: "",
+        tag: "",
+        max_blocks: 0
+    });
+
     const [schemaName, setSchemaName] = useState("");
+    const [schemaClass, setSchemaClass] = useState("");
     const [settingsComponents, setSettingsComponents] = useState([]);
     const [blocksComponents, setBlocksComponents] = useState([]);
-
+console.log(generalSettings)
     return (
         <>
             <SchemaEditor
@@ -14,9 +23,10 @@ export const AppContainer = () => {
                 settingsUpdate={setSettingsComponents}
                 blocks={blocksComponents}
                 blocksUpdate={setBlocksComponents}
-                schemaNameUpdate={setSchemaName}
+                generalSettings={generalSettings}
+                updateGeneralSettings={setGeneralSettings}
             />
-            <SchemaDisplay blocks={blocksComponents} settings={settingsComponents} schemaName={schemaName}/>
+            <SchemaDisplay blocks={blocksComponents} settings={settingsComponents} generalSettings={generalSettings}/>
         </>
     );
 };

@@ -10,6 +10,7 @@ const CodeMirror = dynamic(() => {
 export const SchemaDisplay = (props) => {
     const schemaDisplay = useRef(null);
     const [settingsComponents, setSettingsComponents] = useState([]);
+    const [generalSettings, setGeneralSettings] = useState({});
 
     useEffect(() => {
         const formattedSettingsComponents = props.settings.map(setting => {
@@ -18,6 +19,19 @@ export const SchemaDisplay = (props) => {
 
         setSettingsComponents(formattedSettingsComponents)
     }, [props.settings]);
+
+    useEffect(() => {
+        const updatedGeneralSettings = {};
+
+        Object.keys((props.generalSettings)).forEach(key => {
+            if (!!props.generalSettings[key]){
+                updatedGeneralSettings[key] = props.generalSettings[key];
+            }
+        })
+        console.log(props.generalSettings)
+
+        setGeneralSettings(updatedGeneralSettings);
+    }, [props.generalSettings]);
 
     useEffect(() => {
         if (CodeMirror && !schemaDisplay.current.retry) {
@@ -38,7 +52,7 @@ export const SchemaDisplay = (props) => {
             {CodeMirror && <CodeMirror
                 ref={schemaDisplay}
                 defaultValue ={JSON.stringify({
-                    name: props.schemaName,
+                    ...generalSettings,
                     settings: settingsComponents,
                     blocks: props.blocks
                 }, null, 4)}

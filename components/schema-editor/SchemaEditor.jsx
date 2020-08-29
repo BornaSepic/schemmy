@@ -17,6 +17,7 @@ import Button from "@material-ui/core/Button";
 import {BlockEditor} from "./sub-components/block-editor/BlockEditor";
 
 import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
+import ListItem from "@material-ui/core/ListItem";
 
 export const SchemaEditor = (props) => {
     const [componentPickerOpened, setComponentPickerOpened] = useState(false);
@@ -27,8 +28,13 @@ export const SchemaEditor = (props) => {
     const [componentIndexToEdit, setComponentIndexToEdit] = useState(undefined);
     const [editedBlockIndex, setEditedBlockIndex] = useState(undefined);
 
-    const nameChangeHandler = (name) => {
-        props.schemaNameUpdate(name);
+    const generalSettingsChangeHandler = (value, key) => {
+        const generalSettings = {...props.generalSettings};
+
+        generalSettings[key] = value;
+
+        console.log(generalSettings)
+        props.updateGeneralSettings(generalSettings);
     };
 
     const handleComponentPickerOpen = () => {
@@ -180,8 +186,31 @@ export const SchemaEditor = (props) => {
     return (
         <Styled.SchemaEditorContainer>
             <Styled.ElevatedContainer elevation={2}>
-                <TextField fullWidth={true} label="Name" variant="outlined"
-                           onChange={(e => nameChangeHandler(e.target.value))}/>
+                <Typography variant={"h5"}>
+                    Schema settings
+                </Typography>
+                <List>
+                    <ListItem>
+                        <TextField fullWidth={true} label="Name" variant="outlined" defaultValue={props.generalSettings.name}
+                                   onChange={(e => generalSettingsChangeHandler(e.target.value, "name"))}/>
+                    </ListItem>
+                    <ListItem>
+                        <TextField fullWidth={true} label="Class" variant="outlined" defaultValue={props.generalSettings.class}
+                                   onChange={(e => generalSettingsChangeHandler(e.target.value, "class"))}/>
+                    </ListItem>
+                    <ListItem>
+                        <TextField fullWidth={true} label="Tag" variant="outlined" defaultValue={props.generalSettings.tag}
+                                   onChange={(e => generalSettingsChangeHandler(e.target.value, "tag"))}/>
+                    </ListItem>
+                    <ListItem>
+                        <TextField fullWidth={true} label="Section" variant="outlined" defaultValue={props.generalSettings.tag}
+                                   onChange={(e => generalSettingsChangeHandler(e.target.value, "section"))}/>
+                    </ListItem>
+                    <ListItem>
+                        <TextField fullWidth={true} type={"number"} label="Max blocks" variant="outlined" defaultValue={props.generalSettings.max_blocks}
+                                   onChange={(e => generalSettingsChangeHandler(parseInt(e.target.value), "max_blocks"))}/>
+                    </ListItem>
+                </List>
             </Styled.ElevatedContainer>
             <Styled.ElevatedContainer elevation={2}>
                 <Typography variant={"h5"}>
