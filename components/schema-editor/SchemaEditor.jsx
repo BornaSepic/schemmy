@@ -41,6 +41,7 @@ export const SchemaEditor = (props) => {
             blocks[editedBlockIndex].settings = [...blocks[editedBlockIndex].settings, component];
 
             props.blocksUpdate(blocks);
+            setEditedBlock(undefined);
             return;
         }
 
