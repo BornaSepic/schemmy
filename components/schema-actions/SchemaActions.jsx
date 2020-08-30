@@ -26,18 +26,20 @@ export const SchemaActions = (props) => {
 
     return (
         <Styled.SchemaDisplayActions>
-            <TextField fullWidth={false}
-                       onChange={(e) => handleSchemaImport(e.target.value)}
-                       placeholder={"Import your schema"}
-                       value={""}
-                       InputProps={{
-                           startAdornment: (
-                               <InputAdornment position="start">
-                                   <CodeIcon/>
-                               </InputAdornment>
-                           ),
-                       }}
-            />
+            <Styled.SchemaImportContainer>
+                <TextField fullWidth={true}
+                           onChange={(e) => handleSchemaImport(e.target.value)}
+                           placeholder={"Paste your existing schema"}
+                           value={""}
+                           InputProps={{
+                               startAdornment: (
+                                   <InputAdornment position="start">
+                                       <CodeIcon/>
+                                   </InputAdornment>
+                               ),
+                           }}
+                />
+            </Styled.SchemaImportContainer>
             <ButtonGroup variant="text" color="primary"
                          aria-label="text primary button group">
                 <IconButton

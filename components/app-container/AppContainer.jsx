@@ -22,6 +22,15 @@ export const AppContainer = () => {
     const handleSchemaImport = (schema) => {
         const {settings, blocks} = schema;
 
+        const updatedGeneralSettings = {
+            name: "",
+            class: "",
+            section: "",
+            tag: "",
+            max_blocks: 0,
+            ...schema
+        };
+
         const formattedSettings = settings.map(setting => formatSetting(setting));
 
         const formattedBlocks = blocks.map(block => {
@@ -31,6 +40,7 @@ export const AppContainer = () => {
 
         setSettingsComponents(formattedSettings);
         setBlocksComponents(formattedBlocks);
+        setGeneralSettings(updatedGeneralSettings)
     };
 
     const [settingsComponents, setSettingsComponents] = useState([]);

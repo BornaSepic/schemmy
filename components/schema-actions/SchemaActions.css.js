@@ -11,3 +11,8 @@ export const SchemaDisplayActions = styled(Paper)`
     
     padding-left: 12px;
 `;
+
+export const SchemaImportContainer = styled('div')`
+    max-width: 240px;
+    width: 100%;    
+`;

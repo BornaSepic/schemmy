@@ -45,7 +45,7 @@ export const SchemaDisplay = (props) => {
                 name: props.schemaName,
                 settings: settingsComponents,
                 blocks: props.blocks
-            }, null, 4));
+            }, null, 2));
 
             codeMirrorInstance.setSize("100%", "580px")
         } else {
