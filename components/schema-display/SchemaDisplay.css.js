@@ -10,7 +10,6 @@ export const SchemaDisplayContainer = styled(Paper)`
     top: 40px;
     
     .CodeMirror, .ReactCodeMirror {
-      border: 1px solid #eee;
       height: 100%;
       max-height: 100%;
     }
@@ -19,3 +18,4 @@ export const SchemaDisplayContainer = styled(Paper)`
 export const SchemaDisplay = styled(TextField)`
     width: 100%;
 `;
+

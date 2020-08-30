@@ -239,7 +239,7 @@ export const SchemaEditor = (props) => {
                             <Styled.BlockContainer key={`block_${blockIndex}`}>
                                 <Styled.BlockListItem>
                                     <ListItemText
-                                        primary={block.name && block.type ? block.name + " | " + block.type : block.name ? block.name : (block.type ? block.type : `Block ${blockIndex}`)}/>
+                                        primary={block.name ? block.name : (block.type ? block.type : `Block ${blockIndex}`)}/>
                                     <ListItemSecondaryAction>
                                         <ButtonGroup variant="text" color="primary"
                                                      aria-label="text primary button group">

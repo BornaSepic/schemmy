@@ -11,11 +11,30 @@ export const AppContainer = () => {
         max_blocks: 0
     });
 
-    const [schemaName, setSchemaName] = useState("");
-    const [schemaClass, setSchemaClass] = useState("");
+    const formatSetting = (setting) => {
+        return ({
+            label: setting.type.split("_").map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(" "),
+            type: setting.type,
+            settings: {...setting}
+        });
+    }
+
+    const handleSchemaImport = (schema) => {
+        const {settings, blocks} = schema;
+
+        const formattedSettings = settings.map(setting => formatSetting(setting));
+
+        const formattedBlocks = blocks.map(block => {
+            block.settings = block.settings.map(setting => formatSetting(setting));
+            return block;
+        });
+
+        setSettingsComponents(formattedSettings);
+        setBlocksComponents(formattedBlocks);
+    };
+
     const [settingsComponents, setSettingsComponents] = useState([]);
     const [blocksComponents, setBlocksComponents] = useState([]);
-console.log(generalSettings)
     return (
         <>
             <SchemaEditor
@@ -26,7 +45,8 @@ console.log(generalSettings)
                 generalSettings={generalSettings}
                 updateGeneralSettings={setGeneralSettings}
             />
-            <SchemaDisplay blocks={blocksComponents} settings={settingsComponents} generalSettings={generalSettings}/>
+            <SchemaDisplay blocks={blocksComponents} settings={settingsComponents} generalSettings={generalSettings}
+                           handleSchemaImport={handleSchemaImport}/>
         </>
     );
 };
