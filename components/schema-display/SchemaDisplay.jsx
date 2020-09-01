@@ -16,6 +16,7 @@ const CodeMirror = dynamic(() => {
 export const SchemaDisplay = (props) => {
     const schemaDisplay = useRef(null);
     const [settingsComponents, setSettingsComponents] = useState([]);
+    const [blocksComponents, setBlocksComponents] = useState([]);
     const [generalSettings, setGeneralSettings] = useState({});
 
     useEffect(() => {
@@ -25,6 +26,19 @@ export const SchemaDisplay = (props) => {
 
         setSettingsComponents(formattedSettingsComponents)
     }, [props.settings]);
+
+    useEffect(() => {
+        const formattedBlocksComponents = [...props.blocks].map(block => {
+            const formattedBlock = {...block};
+            formattedBlock.settings = formattedBlock.settings.map(setting => {
+                return {type: setting.type, ...setting.settings};
+            });
+
+            return formattedBlock;
+        });
+
+        setBlocksComponents(formattedBlocksComponents);
+    }, [props.blocks]);
 
     useEffect(() => {
         const updatedGeneralSettings = {};
@@ -42,9 +56,9 @@ export const SchemaDisplay = (props) => {
         if (CodeMirror && !schemaDisplay.current.retry) {
             const codeMirrorInstance = schemaDisplay.current.getCodeMirror();
             codeMirrorInstance.setValue(JSON.stringify({
-                name: props.schemaName,
+                ...generalSettings,
                 settings: settingsComponents,
-                blocks: props.blocks
+                blocks: blocksComponents
             }, null, 2));
 
             codeMirrorInstance.setSize("100%", "580px")
@@ -59,7 +73,7 @@ export const SchemaDisplay = (props) => {
                 defaultValue ={JSON.stringify({
                     ...generalSettings,
                     settings: settingsComponents,
-                    blocks: props.blocks
+                    blocks: blocksComponents
                 }, null, 4)}
                 options={{
                     readOnly: true,
