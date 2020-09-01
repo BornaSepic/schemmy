@@ -1,21 +1,41 @@
 import Head from 'next/head'
+import Divider from "@material-ui/core/Divider";
 
 export default function Home() {
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Scheemy - Shopify schema builder</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+          Create <a href={"https://www.shopify.com/"} target={"_blank"} style={{color: "#95bf46"}}>Shopify</a> schema 70% faster with Scheemy
         </h1>
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
+        <ul>
+          <li>Intuitive drag and drop builder</li>
+          <li>Never have to write Shopify schema by hand again</li>
+          <li>... by developers, for developers ❤</li>
+        </ul>
+
+        <a className="button primary" href="/app">TRY SCHEEMY FOR FREE</a>
+
+        <hr/>
+
+        <section>
+          <h2 className="sectionTitle">Why Scheemy?</h2>
+          <p>It can easily take a couple of hours to write a more complex schema, say for a page builder, by hand.</p>
+          <p><b>With Scheemy you can cut down that time by more then 70%.</b></p>
+        </section>
+
+        <section>
+          <h2 className="sectionTitle">How does it do that?</h2>
+          <p>1. Scheemy cuts down the mountain of errors that come up from writing the Schema by hand</p>
+          <p>2. Scheemy allows you to easily duplicate / remove / add options anywhere is your schema</p>
+          <p>3. Scheemy tracks and saves the progress of your scheema, so you can always be sure your work will never get lost</p>
+        </section>
 
         <div className="grid">
           <a href="https://nextjs.org/docs" className="card">
@@ -68,6 +88,17 @@ export default function Home() {
           justify-content: center;
           align-items: center;
         }
+        
+        hr {
+            border: none;
+            height: 1px;
+            margin: 0;
+            flex-shrink: 0;
+            background-color: rgba(0, 0, 0, 0.12);
+            width: 100%;
+            margin: 48px 0;
+           
+        }
 
         main {
           padding: 5rem 0;
@@ -76,6 +107,7 @@ export default function Home() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          padding: 20px;
         }
 
         footer {
@@ -101,6 +133,30 @@ export default function Home() {
           color: inherit;
           text-decoration: none;
         }
+        
+        a.button {
+          display: flex;
+              display: inline-flex;
+          font-size: 14px;
+          letter-spacing: 0px;
+          font-weight: 700;
+          text-transform: uppercase;
+          line-height: 16px;
+          text-decoration: none !important;
+          background-color: #fff;
+          color: #4950F6 !important;
+          border: none;
+          border-radius: 2px;
+          cursor: pointer;
+          justify-content: center;
+          padding: 16px 32px;
+          height: 48px;
+          text-align: center;
+          white-space: nowrap;
+          background: #4950F6;
+          color: #fff !important;
+          transition: background .15s ease; 
+        }
 
         .title a {
           color: #0070f3;
@@ -114,14 +170,23 @@ export default function Home() {
         }
 
         .title {
+          letter-spacing: 1px;
           margin: 0;
+          margin-bottom: 24px;
           line-height: 1.15;
-          font-size: 4rem;
+          font-size: 2.5rem;
         }
-
-        .title,
-        .description {
-          text-align: center;
+        
+        section + section {
+          margin-top: 24px;
+        }
+        
+        .sectionTitle {
+          letter-spacing: 1px;
+          margin: 0;
+          margin-bottom: 24px;
+          line-height: 1.15;
+          font-size: 1.5rem;
         }
 
         .description {
@@ -143,13 +208,11 @@ export default function Home() {
           align-items: center;
           justify-content: center;
           flex-wrap: wrap;
-
           max-width: 800px;
-          margin-top: 3rem;
         }
 
         .card {
-          margin: 1rem;
+          margin-bottom: 1rem;
           flex-basis: 45%;
           padding: 1.5rem;
           text-align: left;
@@ -180,6 +243,16 @@ export default function Home() {
 
         .logo {
           height: 1em;
+        }
+        
+        ul {
+              color: #565678;
+              margin: 24px 0;
+              padding-left: 24px;
+        }
+        
+        ul li {
+          font-size: 1.2rem;
         }
 
         @media (max-width: 600px) {
