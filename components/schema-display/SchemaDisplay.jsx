@@ -2,10 +2,6 @@ import * as Styled from "./SchemaDisplay.css.js";
 import React, {useEffect, useRef, useState} from "react";
 import dynamic from 'next/dynamic'
 import Divider from "@material-ui/core/Divider";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import IconButton from "@material-ui/core/IconButton";
-
-import CodeIcon from '@material-ui/icons/Code';
 import {SchemaActions} from "../schema-actions/SchemaActions";
 
 const CodeMirror = dynamic(() => {

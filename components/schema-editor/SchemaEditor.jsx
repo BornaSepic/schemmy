@@ -8,13 +8,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
 import {ComponentEditor} from "./sub-components/component-editor/ComponentEditor";
 import Button from "@material-ui/core/Button";
 import {BlockEditor} from "./sub-components/block-editor/BlockEditor";
+import FileCopyIcon from '@material-ui/icons/FileCopy';
 
 import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 import ListItem from "@material-ui/core/ListItem";
@@ -65,6 +65,32 @@ export const SchemaEditor = (props) => {
 
             updatedBlocks[blockIndexToEdit].settings = updatedBlocks[blockIndexToEdit].settings.filter((setting, index) => index !== indexToRemove);
             props.blocksUpdate(updatedBlocks);
+        }
+    };
+
+    const blockCopyHandler = (blockIndexToCopy) => {
+        const blocks = [...props.blocks];
+        const copiedBlock = {...blocks[blockIndexToCopy]};
+
+        blocks.splice(blockIndexToCopy, 0, JSON.parse(JSON.stringify(copiedBlock)));
+
+        props.blocksUpdate(blocks);
+    };
+
+    const componentCopyHandler = (componentIndexToCopy, blockIndexToCopy) => {
+        if (isNaN(blockIndexToCopy)) {
+            const settingsToUpdate = [...props.settings];
+            const copiedComponent = JSON.parse(JSON.stringify(settingsToUpdate[componentIndexToCopy]));
+            settingsToUpdate.splice(componentIndexToCopy, 0, copiedComponent);
+
+            props.settingsUpdate(settingsToUpdate);
+        } else {
+            const blocks = [...props.blocks];
+            const blockToCopyInto = blocks[blockIndexToCopy];
+            const copiedComponent = JSON.parse(JSON.stringify(blockToCopyInto.settings[componentIndexToCopy]));
+            blockToCopyInto.settings.splice(componentIndexToCopy, 0, copiedComponent);
+
+            props.blocksUpdate(blocks)
         }
     };
 
@@ -184,7 +210,8 @@ export const SchemaEditor = (props) => {
 
     return (
         <Styled.SchemaEditorContainer>
-            <GeneralSettingsEditor generalSettings={props.generalSettings} updateGeneralSetting={generalSettingsChangeHandler} />
+            <GeneralSettingsEditor generalSettings={props.generalSettings}
+                                   updateGeneralSetting={generalSettingsChangeHandler}/>
             <Styled.ElevatedContainer elevation={2}>
                 <Typography variant={"h5"}>
                     Settings
@@ -210,6 +237,9 @@ export const SchemaEditor = (props) => {
                                                                  aria-label="text primary button group">
                                                         <IconButton onClick={() => componentEditHandler(index)}>
                                                             <EditIcon/>
+                                                        </IconButton>
+                                                        <IconButton onClick={() => componentCopyHandler(index)}>
+                                                            <FileCopyIcon/>
                                                         </IconButton>
                                                         <IconButton onClick={() => componentRemovalHandler(index)}>
                                                             <DeleteIcon/>
@@ -249,6 +279,9 @@ export const SchemaEditor = (props) => {
                                             <IconButton onClick={() => blockEditHandler(blockIndex)}>
                                                 <EditIcon/>
                                             </IconButton>
+                                            <IconButton onClick={() => blockCopyHandler(blockIndex)}>
+                                                <FileCopyIcon/>
+                                            </IconButton>
                                             <IconButton onClick={() => blockRemovalHandler(blockIndex)}>
                                                 <DeleteIcon/>
                                             </IconButton>
@@ -277,6 +310,10 @@ export const SchemaEditor = (props) => {
                                                                     <IconButton
                                                                         onClick={() => componentEditHandler(componentIndex, blockIndex)}>
                                                                         <EditIcon/>
+                                                                    </IconButton>
+                                                                    <IconButton
+                                                                        onClick={() => componentCopyHandler(componentIndex, blockIndex)}>
+                                                                        <FileCopyIcon/>
                                                                     </IconButton>
                                                                     <IconButton
                                                                         onClick={() => componentRemovalHandler(componentIndex, blockIndex)}>

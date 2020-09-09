@@ -31,12 +31,12 @@ export const AppContainer = () => {
             ...schema
         };
 
-        const formattedSettings = settings.map(setting => formatSetting(setting));
+        const formattedSettings = settings ? settings.map(setting => formatSetting(setting)) : [];
 
-        const formattedBlocks = blocks.map(block => {
+        const formattedBlocks = blocks ? blocks.map(block => {
             block.settings = block.settings.map(setting => formatSetting(setting));
             return block;
-        });
+        }) : [];
 
         setSettingsComponents(formattedSettings);
         setBlocksComponents(formattedBlocks);
