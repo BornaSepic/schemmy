@@ -47,6 +47,72 @@ export const ComponentEditor = (props) => {
         }
     };
 
+    const settingBuilder = (setting) => {
+        switch (setting) {
+            case "accept":
+                return (
+                    <Styled.ComponentListItem key={setting}>
+                        <TextField fullWidth={true}
+                                   label={setting} defaultValue={props.component.settings[setting]}
+                                   variant="outlined"
+                                   onChange={(e) => propertyUpdateHandler(setting, e.target.value.split(","))}/>
+                    </Styled.ComponentListItem>
+                );
+            case "min" || "max" || "step":
+                return (
+                    <Styled.ComponentListItem key={setting}>
+                        <TextField fullWidth={true}
+                                   label={setting} defaultValue={props.component.settings[setting]}
+                                   variant="outlined"
+                                   type={"number"}
+                                   onChange={(e) => propertyUpdateHandler(setting, Math.floor(e.target.value))}
+                        />
+                    </Styled.ComponentListItem>
+                );
+            case "options":
+                return (
+
+                    <List key={setting}>
+                        <Styled.SubListTitle component={"h6"} variant={"h6"}>
+                            Options:
+                        </Styled.SubListTitle>
+                        {props.component.settings.options.map((option, index) => (
+                            <Styled.SubListComponentListItem key={setting + "_" + index}>
+                                <TextField fullWidth={true}
+                                           defaultValue={option.value}
+                                           label={"Value"}
+                                           onChange={(e) => optionsPropertyUpdateHandler("value", index, e.target.value)}
+                                />
+                                <TextField fullWidth={true}
+                                           defaultValue={option.key}
+                                           label={"Key"}
+                                           onChange={(e) => optionsPropertyUpdateHandler("key", index, e.target.value)}
+                                />
+                            </Styled.SubListComponentListItem>
+                        ))}
+                        <Styled.SubListActionsContainer fullWidth={true} variant="text" color="primary"
+                                                        aria-label="text primary button group">
+                            <IconButton onClick={() => optionsPropertyRemovalHandler()}>
+                                <RemoveCircleIcon/>
+                            </IconButton>
+                            <IconButton onClick={() => optionsPropertyAdditionHandler()}>
+                                <AddCircleIcon/>
+                            </IconButton>
+                        </Styled.SubListActionsContainer>
+                    </List>
+                );
+            default:
+                return (
+                    <Styled.ComponentListItem key={setting}>
+                        <TextField fullWidth={true}
+                                   label={setting} defaultValue={props.component.settings[setting]}
+                                   variant="outlined"
+                                   onChange={(e) => propertyUpdateHandler(setting, e.target.value)}/>
+                    </Styled.ComponentListItem>
+                )
+        }
+    }
+
     return (
         <Dialog
             maxWidth="xs"
@@ -58,59 +124,7 @@ export const ComponentEditor = (props) => {
             <Divider/>
             <List>
                 {Object.keys(props.component.settings).map(setting => {
-                    return setting === "accept" ? (
-                        <Styled.ComponentListItem key={setting}>
-                            <TextField fullWidth={true}
-                                       label={setting} defaultValue={props.component.settings[setting]}
-                                       variant="outlined"
-                                       onChange={(e) => propertyUpdateHandler(setting, e.target.value.split(","))}/>
-                        </Styled.ComponentListItem>
-                    ) : setting === "min" || setting === "max" || setting === "step" ? (
-                        <Styled.ComponentListItem key={setting}>
-                            <TextField fullWidth={true}
-                                       label={setting} defaultValue={props.component.settings[setting]}
-                                       variant="outlined"
-                                       type={"number"}
-                                       onChange={(e) => propertyUpdateHandler(setting, Math.floor(e.target.value))}
-                            />
-                        </Styled.ComponentListItem>
-                    ) : (setting !== "options" ? (
-                        <Styled.ComponentListItem key={setting}>
-                            <TextField fullWidth={true}
-                                       label={setting} defaultValue={props.component.settings[setting]}
-                                       variant="outlined"
-                                       onChange={(e) => propertyUpdateHandler(setting, e.target.value)}/>
-                        </Styled.ComponentListItem>
-                    ) : (
-                        <List key={setting}>
-                            <Styled.SubListTitle component={"h6"} variant={"h6"}>
-                                Options:
-                            </Styled.SubListTitle>
-                            {props.component.settings.options.map((option, index) => (
-                                <Styled.SubListComponentListItem key={setting + "_" + index}>
-                                    <TextField fullWidth={true}
-                                               defaultValue={option.value}
-                                               label={"Value"}
-                                               onChange={(e) => optionsPropertyUpdateHandler("value", index, e.target.value)}
-                                    />
-                                    <TextField fullWidth={true}
-                                               defaultValue={option.key}
-                                               label={"Key"}
-                                               onChange={(e) => optionsPropertyUpdateHandler("key", index, e.target.value)}
-                                    />
-                                </Styled.SubListComponentListItem>
-                            ))}
-                            <Styled.SubListActionsContainer fullWidth={true} variant="text" color="primary"
-                                                            aria-label="text primary button group">
-                                <IconButton onClick={() => optionsPropertyRemovalHandler()}>
-                                    <RemoveCircleIcon/>
-                                </IconButton>
-                                <IconButton onClick={() => optionsPropertyAdditionHandler()}>
-                                    <AddCircleIcon/>
-                                </IconButton>
-                            </Styled.SubListActionsContainer>
-                        </List>
-                    ))
+                    return settingBuilder(setting);
                 })}
             </List>
             <Divider/>

@@ -232,7 +232,7 @@ export const SchemaEditor = (props) => {
                                                     {...provided.dragHandleProps}
                                                 >
                                                     <ListItemText
-                                                        primary={component.settings["label"] ? component.settings["label"] + " | " + component.label : component.label}/>
+                                                        primary={component.settings["label"] || component.settings["content"] ? component.settings["label"] || component.settings["content"] + " | " + component.label : component.label}/>
                                                     <ButtonGroup variant="text" color="primary"
                                                                  aria-label="text primary button group">
                                                         <IconButton onClick={() => componentEditHandler(index)}>

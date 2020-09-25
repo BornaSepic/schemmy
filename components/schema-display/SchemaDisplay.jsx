@@ -15,6 +15,14 @@ export const SchemaDisplay = (props) => {
     const [blocksComponents, setBlocksComponents] = useState([]);
     const [generalSettings, setGeneralSettings] = useState({});
 
+    function removeEmptyProperties(key, value) {
+        if (value === "") {
+            return undefined;
+        }
+
+        return value;
+    }
+
     useEffect(() => {
         const formattedSettingsComponents = props.settings.map(setting => {
           return {type: setting.type, ...setting.settings};
@@ -70,7 +78,7 @@ export const SchemaDisplay = (props) => {
                     ...generalSettings,
                     settings: settingsComponents,
                     blocks: blocksComponents
-                }, null, 4)}
+                }, removeEmptyProperties, 4)}
                 options={{
                     readOnly: true,
                     mode: "javascript",
