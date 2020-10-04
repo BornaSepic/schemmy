@@ -19,9 +19,9 @@ export const ComponentPicker = (props) => {
             settings: {
                 "id": "",
                 "label": "",
-                "default": "",
                 "info": "",
                 "placeholder": "",
+                "default": ""
             }
         },
         {
@@ -30,9 +30,9 @@ export const ComponentPicker = (props) => {
             settings: {
                 "id": "",
                 "label": "",
-                "default": "",
                 "info": "",
-                "placeholder": ""
+                "placeholder": "",
+                "default": "",
             }
         },
         {
@@ -50,13 +50,13 @@ export const ComponentPicker = (props) => {
                 "id": "",
                 "label": "",
                 "info": "",
-                "default": "",
                 "options": [
                     {
                         key: "",
                         value: ""
                     }
                 ],
+                "default": ""
             }
         },
         {
@@ -66,13 +66,13 @@ export const ComponentPicker = (props) => {
                 "id": "",
                 "label": "",
                 "info": "",
-                "default": "",
                 "options": [
                     {
                         key: "",
                         value: ""
                     }
                 ],
+                "default": ""
             }
         },
         {
@@ -81,8 +81,8 @@ export const ComponentPicker = (props) => {
             settings: {
                 "id": "",
                 "label": "",
-                "default": "",
-                "info": ""
+                "info": "",
+                "default": false
             }
         },
         {
@@ -105,8 +105,8 @@ export const ComponentPicker = (props) => {
             settings: {
                 "id": "",
                 "label": "",
-                "default": "",
-                "info": ""
+                "info": "",
+                "default": ""
             }
         },
         {
@@ -115,8 +115,8 @@ export const ComponentPicker = (props) => {
             settings: {
                 "id": "",
                 "label": "",
-                "default": "",
-                "info": ""
+                "info": "",
+                "default": ""
             }
         },
         {
@@ -170,9 +170,9 @@ export const ComponentPicker = (props) => {
                 "id": "",
                 "label": "",
                 "accept": ["youtube", "vimeo"],
-                "default": "",
                 "info": "",
-                "placeholder": ""
+                "placeholder": "",
+                "default": "",
             }
         },
         {

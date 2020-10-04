@@ -10,6 +10,8 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 export const ComponentEditor = (props) => {
     const handleEditorClose = (component) => {
@@ -47,7 +49,28 @@ export const ComponentEditor = (props) => {
         }
     };
 
-    const settingBuilder = (setting) => {
+    const settingBuilder = (setting, componentType) => {
+        if  (componentType === "checkbox" && setting === "default") {
+            return (
+                <Styled.ComponentListItem key={setting}>
+                    <FormControlLabel
+                        style={{margin: 0}}
+                        control={
+                            <Checkbox
+                                label={"Default"}
+                                checked={!!props.component.settings[setting]}
+                                onChange={(e) => propertyUpdateHandler(setting, e.target.checked)}
+                                name="checkedB"
+                                color="primary"
+                            />
+                        }
+                        label={setting}
+                        labelPlacement="start"
+                    />
+                </Styled.ComponentListItem>
+            );
+        }
+
         switch (setting) {
             case "accept":
                 return (
@@ -71,7 +94,6 @@ export const ComponentEditor = (props) => {
                 );
             case "options":
                 return (
-
                     <List key={setting}>
                         <Styled.SubListTitle component={"h6"} variant={"h6"}>
                             Options:
@@ -124,7 +146,8 @@ export const ComponentEditor = (props) => {
             <Divider/>
             <List>
                 {Object.keys(props.component.settings).map(setting => {
-                    return settingBuilder(setting);
+                    console.log(props.component);
+                    return settingBuilder(setting, props.component.type);
                 })}
             </List>
             <Divider/>
