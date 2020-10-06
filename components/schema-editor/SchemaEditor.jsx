@@ -1,6 +1,5 @@
 import * as Styled from "./SchemaEditor.css";
 import {ComponentPicker} from "./sub-components/component-picker/ComponentPicker";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import React, {useState} from "react";
 import List from "@material-ui/core/List";
@@ -16,11 +15,12 @@ import Button from "@material-ui/core/Button";
 import {BlockEditor} from "./sub-components/block-editor/BlockEditor";
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 
-import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
-import ListItem from "@material-ui/core/ListItem";
+import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import {GeneralSettingsEditor} from "./sub-components/general-settings-editor/GeneralSettingsEditor";
+import withStyles from "@material-ui/core/styles/withStyles";
+import {styles} from "../../styles/theme";
 
-export const SchemaEditor = (props) => {
+const SchemaEditor = (props) => {
     const [componentPickerOpened, setComponentPickerOpened] = useState(false);
     const [editedComponent, setEditedComponent] = useState(undefined);
 
@@ -46,12 +46,14 @@ export const SchemaEditor = (props) => {
             blocks[editedBlockIndex].settings = [...blocks[editedBlockIndex].settings, component];
 
             props.blocksUpdate(blocks);
-            setEditedBlock(undefined);
+            setEditedComponent(component);
             return;
         }
 
         const updatedSettingsComponents = [...props.settings, component];
         props.settingsUpdate(updatedSettingsComponents);
+
+        setEditedComponent(component)
     };
 
     const componentRemovalHandler = (indexToRemove, blockIndexToEdit) => {
@@ -255,7 +257,7 @@ export const SchemaEditor = (props) => {
                         )}
                     </Droppable>
                 </DragDropContext>
-                <Button variant="contained" color="primary" onClick={handleComponentPickerOpen}>
+                <Button className={props.classes.button} variant="contained" color="primary" onClick={handleComponentPickerOpen}>
                     + Add a settings element
                 </Button>
             </Styled.ElevatedContainer>
@@ -333,7 +335,7 @@ export const SchemaEditor = (props) => {
                         )
                     })}
                 </List>
-                <Button variant="contained" color="primary" onClick={handleBlockAddition}>
+                <Button className={props.classes.button} variant="contained" color="primary" onClick={handleBlockAddition}>
                     + Add a block element
                 </Button>
             </Styled.ElevatedContainer>
@@ -346,3 +348,5 @@ export const SchemaEditor = (props) => {
         </Styled.SchemaEditorContainer>
     )
 };
+
+export default withStyles(styles)(SchemaEditor);

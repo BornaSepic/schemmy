@@ -1,6 +1,8 @@
 import React from 'react';
 import App from 'next/app';
 import Head from 'next/head';
+import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import theme from "../styles/theme";
 
 require("../node_modules/codemirror/lib/codemirror.css");
 require("../node_modules/codemirror/theme/idea.css");
@@ -38,7 +40,9 @@ export default class MyApp extends App {
                         content="Shopify schema editor"
                     />
                 </Head>
-                <Component {...pageProps} key={router.route}/>
+                <ThemeProvider theme={theme}>
+                    <Component {...pageProps} key={router.route}/>
+                </ThemeProvider>
             </React.Fragment>
         );
     }

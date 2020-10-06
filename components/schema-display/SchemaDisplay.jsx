@@ -16,6 +16,10 @@ export const SchemaDisplay = (props) => {
     const [generalSettings, setGeneralSettings] = useState({});
 
     function removeEmptyProperties(key, value) {
+        if (key === "options") {
+            return value.filter(val => val.key !== "")
+        }
+
         if (value === "") {
             return undefined;
         }

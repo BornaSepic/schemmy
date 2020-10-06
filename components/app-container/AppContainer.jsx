@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {SchemaEditor} from "../schema-editor/SchemaEditor";
+import SchemaEditor from "../schema-editor/SchemaEditor";
 import {SchemaDisplay} from "../schema-display/SchemaDisplay";
 
 export const AppContainer = () => {

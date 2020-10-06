@@ -10,11 +10,11 @@ export const GlobalStyle = createGlobalStyle`
     body {
         margin: 0;
         color: #555;
-        font-family: sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
         font-size: 16px;
         line-height: 1.4;
-        background-color: #e5e5e5;
+        background-color: #2F3E46;
         min-height: 100vh;
     }
     body > div {

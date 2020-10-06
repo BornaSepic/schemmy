@@ -52,7 +52,7 @@ export const ComponentPicker = (props) => {
                 "info": "",
                 "options": [
                     {
-                        key: "",
+                        label: "",
                         value: ""
                     }
                 ],
@@ -68,7 +68,7 @@ export const ComponentPicker = (props) => {
                 "info": "",
                 "options": [
                     {
-                        key: "",
+                        label: "",
                         value: ""
                     }
                 ],

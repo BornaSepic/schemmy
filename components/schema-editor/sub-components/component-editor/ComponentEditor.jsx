@@ -101,14 +101,14 @@ export const ComponentEditor = (props) => {
                         {props.component.settings.options.map((option, index) => (
                             <Styled.SubListComponentListItem key={setting + "_" + index}>
                                 <TextField fullWidth={true}
+                                           defaultValue={option.label}
+                                           label={"Label"}
+                                           onChange={(e) => optionsPropertyUpdateHandler("key", index, e.target.value)}
+                                />
+                                <TextField fullWidth={true}
                                            defaultValue={option.value}
                                            label={"Value"}
                                            onChange={(e) => optionsPropertyUpdateHandler("value", index, e.target.value)}
-                                />
-                                <TextField fullWidth={true}
-                                           defaultValue={option.key}
-                                           label={"Key"}
-                                           onChange={(e) => optionsPropertyUpdateHandler("key", index, e.target.value)}
                                 />
                             </Styled.SubListComponentListItem>
                         ))}
@@ -146,7 +146,6 @@ export const ComponentEditor = (props) => {
             <Divider/>
             <List>
                 {Object.keys(props.component.settings).map(setting => {
-                    console.log(props.component);
                     return settingBuilder(setting, props.component.type);
                 })}
             </List>
