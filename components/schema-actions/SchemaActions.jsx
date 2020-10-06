@@ -29,7 +29,7 @@ export const SchemaActions = (props) => {
             <Styled.SchemaImportContainer>
                 <TextField fullWidth={true}
                            onChange={(e) => handleSchemaImport(e.target.value)}
-                           placeholder={"Paste your existing schema"}
+                           placeholder={"Paste your schema JSON"}
                            value={""}
                            InputProps={{
                                startAdornment: (
