@@ -10,6 +10,23 @@ export const SchemaDisplayActions = styled(Paper)`
     border-top-left-radius: 0 !important;
     
     padding-left: 12px;
+    
+    svg path {
+        fill: hsl(186deg 21% 26%);
+    }
+    
+    button {
+     display: flex;
+     align-items: center;
+     border: none;
+     background: transparent;
+     cursor: pointer;
+    
+     
+     &:focus {
+        outline: none;
+     }
+    }
 `;
 
 export const SchemaImportContainer = styled('div')`

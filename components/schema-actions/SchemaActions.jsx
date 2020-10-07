@@ -6,10 +6,11 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import React, {useState} from "react";
 import TextField from "@material-ui/core/TextField";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Clipboard from "react-clipboard.js";
 
 export const SchemaActions = (props) => {
     const [error, setError] = useState(false);
-
+    const [success, setSuccess] = useState(false);
     const handleSchemaImport = (schema) => {
         setError(false);
         let parsedSchema = undefined;
@@ -23,6 +24,13 @@ export const SchemaActions = (props) => {
             alert('yo what you tryin to do??')
         }
     };
+
+    function updateSuccess() {
+        setSuccess(true);
+        setTimeout(() => {
+            setSuccess(false);
+        }, 1500)
+    }
 
     return (
         <Styled.SchemaDisplayActions>
@@ -40,14 +48,12 @@ export const SchemaActions = (props) => {
                            }}
                 />
             </Styled.SchemaImportContainer>
-            <ButtonGroup variant="text" color="primary"
-                         aria-label="text primary button group">
-                <IconButton
-                    onClick={() => {
-                    }}>
+            {success ? <span>Your schema has been copied!</span> : null}
+            <Clipboard data-clipboard-text={props.schema} onSuccess={() => updateSuccess()}>
+                <IconButton>
                     <FileCopyIcon/>
                 </IconButton>
-            </ButtonGroup>
+            </Clipboard>
         </Styled.SchemaDisplayActions>
     )
 };

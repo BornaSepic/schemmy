@@ -3,7 +3,7 @@ import React, {useEffect, useRef, useState} from "react";
 import dynamic from 'next/dynamic'
 import Divider from "@material-ui/core/Divider";
 import {SchemaActions} from "../schema-actions/SchemaActions";
-
+import Clipboard from 'react-clipboard.js';
 const CodeMirror = dynamic(() => {
     import('codemirror/mode/javascript/javascript');
     return import('react-codemirror')
@@ -77,6 +77,7 @@ export const SchemaDisplay = (props) => {
     return (
         <Styled.SchemaDisplayContainer>
             {CodeMirror && <CodeMirror
+                id={"#schema"}
                 ref={schemaDisplay}
                 defaultValue ={JSON.stringify({
                     ...generalSettings,
@@ -92,7 +93,12 @@ export const SchemaDisplay = (props) => {
                 preserveScrollPosition={true}
             />}
             <Divider />
-            <SchemaActions handleSchemaImport={(schema) => props.handleSchemaImport(schema)} />
+            <SchemaActions schema={JSON.stringify({
+                ...generalSettings,
+                settings: settingsComponents,
+                blocks: blocksComponents
+            }, removeEmptyProperties, 4)} handleSchemaImport={(schema) => props.handleSchemaImport(schema)} />
         </Styled.SchemaDisplayContainer>
     );
 };
+
