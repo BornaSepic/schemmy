@@ -14,13 +14,11 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 export const ComponentEditor = (props) => {
-    function debounce(method, delay, properties) {
+    function debounce(method, delay, ...properties) {
         clearTimeout(method._tId);
-
-        const [property, value] = properties;
-
+        console.log(properties)
         method._tId= setTimeout(function(){
-            method(property, value);
+            method(...properties);
         }, delay);
     }
 
@@ -29,6 +27,7 @@ export const ComponentEditor = (props) => {
     };
 
     const propertyUpdateHandler = (property, value) => {
+        console.log(property, value)
         const component = {...props.component};
         component.settings[property] = value;
 
@@ -69,7 +68,7 @@ export const ComponentEditor = (props) => {
                             <Checkbox
                                 label={"Default"}
                                 checked={!!props.component.settings[setting]}
-                                onChange={(e) => debounce(propertyUpdateHandler, 500, [setting, e.target.checked])}
+                                onChange={(e) => debounce(propertyUpdateHandler, 500, setting, e.target.checked)}
                                 name="checkedB"
                                 color="primary"
                             />
@@ -88,17 +87,19 @@ export const ComponentEditor = (props) => {
                         <TextField fullWidth={true}
                                    label={setting} defaultValue={props.component.settings[setting]}
                                    variant="outlined"
-                                   onChange={(e) => debounce(propertyUpdateHandler, 500, [setting, e.target.value.split(",")])}/>
+                                   onChange={(e) => debounce(propertyUpdateHandler, 500, setting, e.target.value.split(","))}/>
                     </Styled.ComponentListItem>
                 );
-            case "min" || "max" || "step":
+            case "max":
+            case "min":
+            case "step":
                 return (
                     <Styled.ComponentListItem key={setting}>
                         <TextField fullWidth={true}
                                    label={setting} defaultValue={props.component.settings[setting]}
                                    variant="outlined"
                                    type={"number"}
-                                   onChange={(e) => debounce(propertyUpdateHandler, 500, [setting, Math.floor(e.target.value)])}
+                                   onChange={(e) => debounce(propertyUpdateHandler, 500, setting, Math.floor(e.target.value))}
                         />
                     </Styled.ComponentListItem>
                 );
@@ -113,21 +114,21 @@ export const ComponentEditor = (props) => {
                                 <TextField fullWidth={true}
                                            defaultValue={option.label}
                                            label={"Label"}
-                                           onChange={(e) => debounce(optionsPropertyUpdateHandler, 500, ["key", index, e.target.value])}
+                                           onChange={(e) => debounce(optionsPropertyUpdateHandler, 500, "key", index, e.target.value)}
                                 />
                                 <TextField fullWidth={true}
                                            defaultValue={option.value}
                                            label={"Value"}
-                                           onChange={(e) => debounce(optionsPropertyUpdateHandler, 500, ["value", index, e.target.value])}
+                                           onChange={(e) => debounce(optionsPropertyUpdateHandler, 500, "value", index, e.target.value)}
                                 />
                             </Styled.SubListComponentListItem>
                         ))}
                         <Styled.SubListActionsContainer fullWidth={true} variant="text" color="primary"
                                                         aria-label="text primary button group">
-                            <IconButton onClick={() => debounce(optionsPropertyRemovalHandler(), 500)}>
+                            <IconButton onClick={() => optionsPropertyRemovalHandler()}>
                                 <RemoveCircleIcon/>
                             </IconButton>
-                            <IconButton onClick={() => debounce(optionsPropertyAdditionHandler(), 500)}>
+                            <IconButton onClick={() => optionsPropertyAdditionHandler()}>
                                 <AddCircleIcon/>
                             </IconButton>
                         </Styled.SubListActionsContainer>
@@ -139,7 +140,7 @@ export const ComponentEditor = (props) => {
                         <TextField fullWidth={true}
                                    label={setting} defaultValue={props.component.settings[setting]}
                                    variant="outlined"
-                                   onChange={(e) => debounce(propertyUpdateHandler, 500, [setting, e.target.value])}/>
+                                   onChange={(e) => debounce(propertyUpdateHandler, 500, setting, e.target.value)}/>
                     </Styled.ComponentListItem>
                 )
         }

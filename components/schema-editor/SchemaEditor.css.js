@@ -10,6 +10,16 @@ export const SchemaEditorContainer = styled('div')`
     Paper + Paper {
         margin-top: 40px;
     } 
+    
+    @media only screen and (min-width: 780px) {
+        margin-right: 30px;    
+    }
+    
+    @media only screen and (max-width: 780px) {
+        margin-right: 0;
+        margin-bottom: 30px;
+        max-width: 100%;    
+    }  
 `;
 
 export const BlockContainer = styled('div')`

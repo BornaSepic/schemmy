@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import SchemaEditor from "../schema-editor/SchemaEditor";
 import {SchemaDisplay} from "../schema-display/SchemaDisplay";
-
+import * as Styled from "./AppContainer.css";
 export const AppContainer = () => {
     const [generalSettings, setGeneralSettings] = useState({
         name: "",
@@ -46,7 +46,7 @@ export const AppContainer = () => {
     const [settingsComponents, setSettingsComponents] = useState([]);
     const [blocksComponents, setBlocksComponents] = useState([]);
     return (
-        <>
+        <Styled.AppContentContainer>
             <SchemaEditor
                 settings={settingsComponents}
                 settingsUpdate={setSettingsComponents}
@@ -57,6 +57,6 @@ export const AppContainer = () => {
             />
             <SchemaDisplay blocks={blocksComponents} settings={settingsComponents} generalSettings={generalSettings}
                            handleSchemaImport={handleSchemaImport}/>
-        </>
+        </Styled.AppContentContainer>
     );
 };

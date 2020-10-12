@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import {Paper} from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
 
 export const SchemaDisplayContainer = styled(Paper)`
     max-width: 580px;
@@ -13,9 +12,8 @@ export const SchemaDisplayContainer = styled(Paper)`
       height: 100%;
       max-height: 100%;
     }
+    
+    @media only screen and (max-width: 780px) {
+        max-width: 100%;    
+    }  
 `;
-
-export const SchemaDisplay = styled(TextField)`
-    width: 100%;
-`;
-
