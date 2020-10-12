@@ -29,7 +29,6 @@ export const ComponentEditor = (props) => {
     };
 
     const propertyUpdateHandler = (property, value) => {
-        console.log(property, value)
         const component = {...props.component};
         component.settings[property] = value;
 
