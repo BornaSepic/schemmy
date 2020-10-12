@@ -113,7 +113,7 @@ export const ComponentEditor = (props) => {
                                 <TextField fullWidth={true}
                                            defaultValue={option.label}
                                            label={"Label"}
-                                           onChange={(e) => debounce(optionsPropertyUpdateHandler, 500, "key", index, e.target.value)}
+                                           onChange={(e) => debounce(optionsPropertyUpdateHandler, 500, "label", index, e.target.value)}
                                 />
                                 <TextField fullWidth={true}
                                            defaultValue={option.value}
