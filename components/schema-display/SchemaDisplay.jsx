@@ -88,7 +88,8 @@ export const SchemaDisplay = (props) => {
                     readOnly: true,
                     mode: "javascript",
                     size: "100%",
-                    theme: "idea"
+                    theme: "idea",
+                    preserveScrollPosition: true
                 }}
                 preserveScrollPosition={true}
             />}

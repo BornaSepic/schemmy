@@ -21,7 +21,7 @@ export const SchemaActions = (props) => {
         } catch (e) {
             parsedSchema = undefined;
             setError(true);
-            alert('yo what you tryin to do??')
+            alert(`That doesn't seem like valid JSON, make sure you don't include the {% schema %} tags`);
         }
     };
 
@@ -49,8 +49,8 @@ export const SchemaActions = (props) => {
                 />
             </Styled.SchemaImportContainer>
             {success ? <span>Your schema has been copied!</span> : null}
-            <Clipboard data-clipboard-text={props.schema} onSuccess={() => updateSuccess()}>
-                <IconButton>
+            <Clipboard component={"a"} data-clipboard-text={props.schema} onSuccess={() => updateSuccess()}>
+                <IconButton >
                     <FileCopyIcon/>
                 </IconButton>
             </Clipboard>

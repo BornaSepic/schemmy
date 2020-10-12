@@ -16,7 +16,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 export const ComponentEditor = (props) => {
     function debounce(method, delay, ...properties) {
         clearTimeout(method._tId);
-        console.log(properties)
         method._tId= setTimeout(function(){
             method(...properties);
         }, delay);
