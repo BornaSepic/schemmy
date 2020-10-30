@@ -1,11 +1,11 @@
 import React from "react";
-import {AppContainer} from "../components/app-container/AppContainer";
+import {EditorContainer} from "../components/editor-container/EditorContainer";
 import Layout from "../components/layout/Layout";
 
 export default function App() {
     return (
         <Layout>
-            <AppContainer/>
+            <EditorContainer/>
         </Layout>
     );
 }

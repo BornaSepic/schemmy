@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import SchemaEditor from "../schema-editor/SchemaEditor";
 import {SchemaDisplay} from "../schema-display/SchemaDisplay";
-import * as Styled from "./AppContainer.css";
-export const AppContainer = () => {
+import * as Styled from "./EditorContainer.css";
+export const EditorContainer = () => {
     const [generalSettings, setGeneralSettings] = useState({
         name: "",
         class: "",
