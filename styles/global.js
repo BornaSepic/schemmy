@@ -29,8 +29,7 @@ export const GlobalStyle = createGlobalStyle`
         grid-area: Content;
         background: ;
         padding: 35px;
-        display: flex;
-        justify-content: space-around;
+        
         max-width: 1280px;
         margin: auto;
     }

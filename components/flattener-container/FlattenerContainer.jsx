@@ -1,6 +1,12 @@
 import * as Styled from "./FlattenerContainer.css";
 import React, {useEffect, useRef, useState} from "react";
 import dynamic from "next/dynamic";
+import {Paper} from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
+import Typography from "@material-ui/core/Typography";
+import Clipboard from "react-clipboard.js";
+import IconButton from "@material-ui/core/IconButton";
+import FileCopyIcon from "@material-ui/icons/FileCopy";
 
 const CodeMirror = dynamic(() => {
     import('codemirror/mode/javascript/javascript');
@@ -11,6 +17,7 @@ export const FlattenerContainer = () => {
     const blockIndexes = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth'];
     const [unformattedSchema, setUnformattedSchema] = useState("");
     const [flattenedSchema, setFlattenedSchema] = useState({});
+    const [success, setSuccess] = useState(false);
 
     const schemaDisplay = useRef(null);
 
@@ -56,6 +63,13 @@ export const FlattenerContainer = () => {
         }
     };
 
+    function updateSuccess() {
+        setSuccess(true);
+        setTimeout(() => {
+            setSuccess(false);
+        }, 1500)
+    }
+
     useEffect(() => {
         if (CodeMirror && !schemaDisplay.current.retry) {
             const codeMirrorInstance = schemaDisplay.current.getCodeMirror();
@@ -70,11 +84,18 @@ export const FlattenerContainer = () => {
     return (
         <>
             <Styled.FlattenerContainer>
-                <div>
-                    <Styled.FlattenerTitle>Enter your section schema:</Styled.FlattenerTitle>
+                <Paper>
+                    <Styled.FlattenerTitle>
+                        <Typography variant={"h5"}>
+                            Enter your section schema:
+                        </Typography>
+                    </Styled.FlattenerTitle>
+                    <Divider/>
+
                     {CodeMirror && <CodeMirror
                         id={"#schema"}
                         defaultValue={unformattedSchema}
+                        placeholder={"Your schema needs to be valid JSON"}
                         options={{
                             readOnly: false,
                             mode: "javascript",
@@ -85,9 +106,19 @@ export const FlattenerContainer = () => {
                         preserveScrollPosition={true}
                         onChange={(value) => handleSchemaUpdate(value)}
                     />}
-                </div>
-                <div>
-                    <Styled.FlattenerTitle>Get your flattened schema:</Styled.FlattenerTitle>
+                </Paper>
+                <Paper>
+                    <Styled.FlattenerTitle>
+                        <Typography variant={"h5"}>
+                            Get your flattened schema:
+                        </Typography>
+                        <Clipboard component={"a"} data-clipboard-text={JSON.stringify(flattenedSchema, null, 2)} onSuccess={() => updateSuccess()}>
+                            <IconButton >
+                                <FileCopyIcon/>
+                            </IconButton>
+                        </Clipboard>
+                    </Styled.FlattenerTitle>
+                    <Divider/>
 
                     {CodeMirror && <CodeMirror
                         ref={schemaDisplay}
@@ -102,7 +133,7 @@ export const FlattenerContainer = () => {
                         }}
                         preserveScrollPosition={true}
                     />}
-                </div>
+                </Paper>
             </Styled.FlattenerContainer>
         </>
     )
