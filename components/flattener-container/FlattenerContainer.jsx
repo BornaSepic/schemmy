@@ -38,8 +38,13 @@ export const FlattenerContainer = () => {
 
                     const blockSettings = JSON.parse(JSON.stringify(block.settings));
                     const formattedBlockSettings = blockSettings.map(setting => {
-                        setting.id = `${block.type ? `${block.type}-` : ''}${setting.id || setting.type}-${blockIndex}`;
-                        return setting;
+                        if (setting.type !== "header") {
+                            setting.id = `${block.type ? `${block.type}-` : ''}${setting.id || setting.type}-${blockIndex}`;
+                            return setting;
+                        } else {
+                            return setting;
+                        }
+
                     });
                     schemaJSON.settings = [...schemaJSON.settings, ...formattedBlockSettings]
                 });
@@ -138,3 +143,5 @@ export const FlattenerContainer = () => {
         </>
     )
 };
+
+

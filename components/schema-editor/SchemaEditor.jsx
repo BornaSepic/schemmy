@@ -173,125 +173,184 @@ const SchemaEditor = (props) => {
         return result;
     };
 
-    const onSettingsDragEnd = (result) => {
-        if (!result.destination) {
-            return;
-        }
-
+    const onSettingsDragEnd = (source, destination) => {
         const settings = [...props.settings];
 
         const reorderedSettings = reorder(
             settings,
-            result.source.index,
-            result.destination.index
+            source.index,
+            destination.index
         );
-
+        console.log(reorderedSettings)
         props.settingsUpdate(reorderedSettings)
     };
 
-    const onBlockSettingsDragEnd = (result, blockIndex) => {
-        if (!result.destination) {
+    const onBlockSettingsDragEnd = (source, destination, blockIndex) => {
+        if (!destination) {
             return;
         }
 
         const blockToUpdate = {...props.blocks[blockIndex]};
 
-        const reorderedBlockSettings = reorder(
+        blockToUpdate.settings = reorder(
             blockToUpdate.settings,
-            result.source.index,
-            result.destination.index
+            source.index,
+            destination.index
         );
-
-        blockToUpdate.settings = reorderedBlockSettings;
 
         const blocks = [...props.blocks];
         blocks[blockIndex] = blockToUpdate;
 
         props.blocksUpdate(blocks);
+    };
+
+    const handleSettingComponentDrop = (source, destination) => {
+        if (destination.droppableId === "drop_settings") {
+            // DROPPED SETTING INTO SETTINGS
+            onSettingsDragEnd(source, destination);
+        } else {
+            const draggedSetting = JSON.parse(JSON.stringify(props.settings[source.index]));
+            // REMOVE THE DRAGGED SETTING FROM SETTINGS
+            const updatedSettings = [...props.settings];
+            updatedSettings.splice(source.index, 1);
+            props.settingsUpdate(updatedSettings);
+
+            // ADD IT TO THE APPROPRIATE BLOCK
+            const blocks = [...props.blocks];
+            const destinationBlock = blocks[parseInt(destination.droppableId.replace("drop_block_settings_", ""))];
+            destinationBlock.settings.push(draggedSetting);
+            destinationBlock.settings = reorder(destinationBlock.settings, (destinationBlock.settings.length - 1), destination.index);
+            props.blocksUpdate(blocks);
+        }
     }
+
+    const handleBlockSettingComponentDrop = (source, destination) => {
+        if (source.droppableId === destination.droppableId) {
+            // DROPPED WITHIN THE SAME BLOCK
+            const destinationBlockIndex = parseInt(destination.droppableId.replace("drop_block_settings_", ""));
+            onBlockSettingsDragEnd(source, destination, destinationBlockIndex)
+        } else if (destination.droppableId === "drop_settings") {
+            // DROPPED TO SETTINGS
+            const blocks = [...props.blocks];
+            const sourceBlock = blocks[parseInt(source.droppableId.replace("drop_block_settings_", ""))];
+
+            const draggedBlockSetting = JSON.parse(JSON.stringify(sourceBlock.settings[source.index]));
+            const updatedSettings = [...props.settings];
+            updatedSettings.push(draggedBlockSetting);
+            const orderedSettings = reorder(updatedSettings, (updatedSettings.length - 1), destination.index)
+
+            sourceBlock.settings.splice(source.index, 1);
+
+            props.settingsUpdate(orderedSettings);
+            props.blocksUpdate(blocks);
+        } else {
+            // DROPPED TO ANOTHER BLOCK
+            const blocks = [...props.blocks];
+            const sourceBlock = blocks[parseInt(source.droppableId.replace("drop_block_settings_", ""))];
+            const destinationBlock = blocks[parseInt(destination.droppableId.replace("drop_block_settings_", ""))];
+
+            const draggedBlockSetting = JSON.parse(JSON.stringify(sourceBlock.settings[source.index]));
+            sourceBlock.settings.splice(source.index, 1);
+            destinationBlock.settings.push(draggedBlockSetting);
+
+            destinationBlock.settings = reorder(destinationBlock.settings, (destinationBlock.settings.length - 1), destination.index);
+            props.blocksUpdate(blocks);
+        }
+    };
+
+    const handleComponentDrop = (result) => {
+      const {source, destination} = result;
+      if (destination) {
+          if (source.droppableId === "drop_settings") {
+              handleSettingComponentDrop(source, destination);
+          } else {
+              handleBlockSettingComponentDrop(source, destination);
+          }
+      }
+    };
 
     return (
         <Styled.SchemaEditorContainer>
             <GeneralSettingsEditor generalSettings={props.generalSettings}
                                    updateGeneralSetting={generalSettingsChangeHandler}/>
-            <Styled.ElevatedContainer elevation={2}>
-                <Typography variant={"h5"}>
-                    Settings
-                </Typography>
-                <DragDropContext onDragEnd={onSettingsDragEnd}>
-                    <Droppable droppableId="droppable">
-                        {(provided, snapshot) => (
-                            <List ref={provided.innerRef}>
-                                {props.settings.map((component, index) => {
-                                    return (
-                                        <Draggable key={component.type + "_setting" + "_" + index}
-                                                   draggableId={component.type + "_setting" + "_" + index}
-                                                   index={index}>
-                                            {(provided, snapshot) => (
-                                                <Styled.ComponentListItem
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                >
-                                                    <ListItemText
-                                                        primary={component.settings["label"] || component.settings["content"] ? component.settings["label"] || component.settings["content"] + " | " + component.label : component.label}/>
-                                                    <ButtonGroup variant="text" color="primary"
-                                                                 aria-label="text primary button group">
-                                                        <IconButton onClick={() => componentEditHandler(index)}>
-                                                            <EditIcon/>
-                                                        </IconButton>
-                                                        <IconButton onClick={() => componentCopyHandler(index)}>
-                                                            <FileCopyIcon/>
-                                                        </IconButton>
-                                                        <IconButton onClick={() => componentRemovalHandler(index)}>
-                                                            <DeleteIcon/>
-                                                        </IconButton>
-                                                    </ButtonGroup>
-                                                </Styled.ComponentListItem>
-                                            )}
-                                        </Draggable>
-                                    )
-                                })}
-                                {provided.placeholder}
-                            </List>
-                        )}
-                    </Droppable>
-                </DragDropContext>
-                <Button className={props.classes.button} variant="contained" color="primary" onClick={handleComponentPickerOpen}>
-                    + Add a settings element
-                </Button>
-            </Styled.ElevatedContainer>
-            <Styled.ElevatedContainer elevation={2}>
-                <Typography variant={"h5"}>
-                    Blocks
-                </Typography>
-                <List>
-                    {props.blocks.map((block, blockIndex) => {
-                        return (
-                            <Styled.BlockContainer key={`block_${blockIndex}`}>
-                                <Styled.BlockListItem>
-                                    <ListItemText
-                                        primary={block.name ? block.name : (block.type ? block.type : `Block ${blockIndex}`)}/>
-                                    <ListItemSecondaryAction>
-                                        <ButtonGroup variant="text" color="primary"
-                                                     aria-label="text primary button group">
-                                            <IconButton onClick={() => blockSettingsAddHandler(blockIndex)}>
-                                                <AddIcon/>
-                                            </IconButton>
-                                            <IconButton onClick={() => blockEditHandler(blockIndex)}>
-                                                <EditIcon/>
-                                            </IconButton>
-                                            <IconButton onClick={() => blockCopyHandler(blockIndex)}>
-                                                <FileCopyIcon/>
-                                            </IconButton>
-                                            <IconButton onClick={() => blockRemovalHandler(blockIndex)}>
-                                                <DeleteIcon/>
-                                            </IconButton>
-                                        </ButtonGroup>
-                                    </ListItemSecondaryAction>
-                                </Styled.BlockListItem>
-                                <DragDropContext onDragEnd={(result) => onBlockSettingsDragEnd(result, blockIndex)}>
-                                    <Droppable droppableId="droppable_block_settings">
+            <DragDropContext onDragEnd={(result) => handleComponentDrop(result)}>
+
+                <Styled.ElevatedContainer elevation={2}>
+                    <Typography variant={"h5"}>
+                        Settings
+                    </Typography>
+                        <Droppable droppableId="drop_settings">
+                            {(provided, snapshot) => (
+                                <List ref={provided.innerRef}>
+                                    {props.settings.map((component, index) => {
+                                        return (
+                                            <Draggable key={component.type + "_setting" + "_" + index}
+                                                       draggableId={component.type + "_setting" + "_" + index}
+                                                       index={index}>
+                                                {(provided, snapshot) => (
+                                                    <Styled.ComponentListItem
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        <ListItemText
+                                                            primary={component.settings["label"] || component.settings["content"] ? component.settings["label"] || component.settings["content"] + " | " + component.label : component.label}/>
+                                                        <ButtonGroup variant="text" color="primary"
+                                                                     aria-label="text primary button group">
+                                                            <IconButton onClick={() => componentEditHandler(index)}>
+                                                                <EditIcon/>
+                                                            </IconButton>
+                                                            <IconButton onClick={() => componentCopyHandler(index)}>
+                                                                <FileCopyIcon/>
+                                                            </IconButton>
+                                                            <IconButton onClick={() => componentRemovalHandler(index)}>
+                                                                <DeleteIcon/>
+                                                            </IconButton>
+                                                        </ButtonGroup>
+                                                    </Styled.ComponentListItem>
+                                                )}
+                                            </Draggable>
+                                        )
+                                    })}
+                                    {provided.placeholder}
+                                </List>
+                            )}
+                        </Droppable>
+                    <Button className={props.classes.button} variant="contained" color="primary"
+                            onClick={handleComponentPickerOpen}>
+                        + Add a settings element
+                    </Button>
+                </Styled.ElevatedContainer>
+                <Styled.ElevatedContainer elevation={2}>
+                    <Typography variant={"h5"}>
+                        Blocks
+                    </Typography>
+                    <List>
+                        {props.blocks.map((block, blockIndex) => {
+                            return (
+                                <Styled.BlockContainer key={`block_${blockIndex}`}>
+                                    <Styled.BlockListItem>
+                                        <ListItemText
+                                            primary={block.name ? block.name : (block.type ? block.type : `Block ${blockIndex}`)}/>
+                                        <ListItemSecondaryAction>
+                                            <ButtonGroup variant="text" color="primary"
+                                                         aria-label="text primary button group">
+                                                <IconButton onClick={() => blockSettingsAddHandler(blockIndex)}>
+                                                    <AddIcon/>
+                                                </IconButton>
+                                                <IconButton onClick={() => blockEditHandler(blockIndex)}>
+                                                    <EditIcon/>
+                                                </IconButton>
+                                                <IconButton onClick={() => blockCopyHandler(blockIndex)}>
+                                                    <FileCopyIcon/>
+                                                </IconButton>
+                                                <IconButton onClick={() => blockRemovalHandler(blockIndex)}>
+                                                    <DeleteIcon/>
+                                                </IconButton>
+                                            </ButtonGroup>
+                                        </ListItemSecondaryAction>
+                                    </Styled.BlockListItem>
+                                    <Droppable droppableId={`drop_block_settings_${blockIndex}`}>
                                         {(provided, snapshot) => (
                                             <Styled.BlockSettingsContainer ref={provided.innerRef}>
                                                 {block.settings.map((component, componentIndex) => (
@@ -330,15 +389,17 @@ const SchemaEditor = (props) => {
                                             </Styled.BlockSettingsContainer>
                                         )}
                                     </Droppable>
-                                </DragDropContext>
-                            </Styled.BlockContainer>
-                        )
-                    })}
-                </List>
-                <Button className={props.classes.button} variant="contained" color="primary" onClick={handleBlockAddition}>
-                    + Add a block element
-                </Button>
-            </Styled.ElevatedContainer>
+                                </Styled.BlockContainer>
+                            )
+                        })}
+                    </List>
+                    <Button className={props.classes.button} variant="contained" color="primary"
+                            onClick={handleBlockAddition}>
+                        + Add a block element
+                    </Button>
+                </Styled.ElevatedContainer>
+            </DragDropContext>
+
             <ComponentPicker onComponentSelect={componentSelectionHandler} opened={componentPickerOpened}
                              setOpened={setComponentPickerOpened}/>
             {editedComponent ? <ComponentEditor component={editedComponent} onEditorClose={editorCloseHandler}
