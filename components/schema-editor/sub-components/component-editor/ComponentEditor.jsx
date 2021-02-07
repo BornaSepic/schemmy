@@ -26,7 +26,6 @@ export const ComponentEditor = (props) => {
     };
 
     const propertyUpdateHandler = (property, value) => {
-        console.log(property, value)
         const component = {...props.component};
         component.settings[property] = value;
 
@@ -43,7 +42,7 @@ export const ComponentEditor = (props) => {
 
     const optionsPropertyAdditionHandler = () => {
         const component = {...props.component};
-        component.settings.options = [...component.settings.options, {value: "", key: ""}];
+        component.settings.options = [...component.settings.options, {label: "", value: ""}];
 
         props.onEdit(component)
     };
@@ -67,7 +66,7 @@ export const ComponentEditor = (props) => {
                             <Checkbox
                                 label={"Default"}
                                 checked={!!props.component.settings[setting]}
-                                onChange={(e) => debounce(propertyUpdateHandler, 500, setting, e.target.checked)}
+                                onChange={(e) => propertyUpdateHandler(setting, e.target.checked)}
                                 name="checkedB"
                                 color="primary"
                             />
@@ -86,7 +85,7 @@ export const ComponentEditor = (props) => {
                         <TextField fullWidth={true}
                                    label={setting} defaultValue={props.component.settings[setting]}
                                    variant="outlined"
-                                   onChange={(e) => debounce(propertyUpdateHandler, 500, setting, e.target.value.split(","))}/>
+                                   onChange={(e) => propertyUpdateHandler(setting, e.target.value.split(",")) }/>
                     </Styled.ComponentListItem>
                 );
             case "max":
@@ -98,7 +97,7 @@ export const ComponentEditor = (props) => {
                                    label={setting} defaultValue={props.component.settings[setting]}
                                    variant="outlined"
                                    type={"number"}
-                                   onChange={(e) => debounce(propertyUpdateHandler, 500, setting, Math.floor(e.target.value))}
+                                   onChange={(e) => propertyUpdateHandler(setting, Math.floor(e.target.value))}
                         />
                     </Styled.ComponentListItem>
                 );
@@ -113,12 +112,12 @@ export const ComponentEditor = (props) => {
                                 <TextField fullWidth={true}
                                            defaultValue={option.label}
                                            label={"Label"}
-                                           onChange={(e) => debounce(optionsPropertyUpdateHandler, 500, "label", index, e.target.value)}
+                                           onChange={(e) => optionsPropertyUpdateHandler("label", index, e.target.value)}
                                 />
                                 <TextField fullWidth={true}
                                            defaultValue={option.value}
                                            label={"Value"}
-                                           onChange={(e) => debounce(optionsPropertyUpdateHandler, 500, "value", index, e.target.value)}
+                                           onChange={(e) => optionsPropertyUpdateHandler("value", index, e.target.value)}
                                 />
                             </Styled.SubListComponentListItem>
                         ))}
@@ -139,7 +138,7 @@ export const ComponentEditor = (props) => {
                         <TextField fullWidth={true}
                                    label={setting} defaultValue={props.component.settings[setting]}
                                    variant="outlined"
-                                   onChange={(e) => debounce(propertyUpdateHandler, 500, setting, e.target.value)}/>
+                                   onChange={(e) => propertyUpdateHandler(setting, e.target.value)}/>
                     </Styled.ComponentListItem>
                 )
         }

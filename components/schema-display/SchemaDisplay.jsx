@@ -17,7 +17,7 @@ export const SchemaDisplay = (props) => {
 
     function removeEmptyProperties(key, value) {
         if (key === "options") {
-            return value.filter(val => val.key !== "")
+            return value.filter(val => (val.label !== "" || val.value !== ""))
         }
 
         if (value === "") {
@@ -29,10 +29,12 @@ export const SchemaDisplay = (props) => {
 
     useEffect(() => {
         const formattedSettingsComponents = props.settings.map(setting => {
-          return {type: setting.type, ...setting.settings};
+          return {type: setting.type, ...JSON.parse(JSON.stringify(setting.settings))};
         });
 
         setSettingsComponents(formattedSettingsComponents)
+
+        console.log(formattedSettingsComponents)
     }, [props.settings]);
 
     useEffect(() => {
@@ -74,6 +76,7 @@ export const SchemaDisplay = (props) => {
             schemaDisplay.current.retry()
         }
     }, [props]);
+    console.log(settingsComponents)
     return (
         <Styled.SchemaDisplayContainer>
             {CodeMirror && <CodeMirror
