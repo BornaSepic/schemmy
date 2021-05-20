@@ -33,8 +33,6 @@ export const SchemaDisplay = (props) => {
         });
 
         setSettingsComponents(formattedSettingsComponents)
-
-        console.log(formattedSettingsComponents)
     }, [props.settings]);
 
     useEffect(() => {
@@ -76,7 +74,6 @@ export const SchemaDisplay = (props) => {
             schemaDisplay.current.retry()
         }
     }, [props]);
-    console.log(settingsComponents)
     return (
         <Styled.SchemaDisplayContainer>
             {CodeMirror && <CodeMirror

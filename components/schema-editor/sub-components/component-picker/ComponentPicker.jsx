@@ -167,7 +167,7 @@ export const ComponentPicker = (props) => {
                 }
             },
             {
-                type: "list_list",
+                type: "link_list",
                 label: "Link list",
                 settings: {
                     "id": "",
