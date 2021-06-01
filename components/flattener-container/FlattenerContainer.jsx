@@ -14,7 +14,7 @@ const CodeMirror = dynamic(() => {
 }, {ssr: false});
 
 export const FlattenerContainer = () => {
-    const blockIndexes = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth'];
+    const blockIndexes = ['first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eight', 'ninth', 'tenth', 'eleventh', 'twelfth'];
     const [unformattedSchema, setUnformattedSchema] = useState("");
     const [flattenedSchema, setFlattenedSchema] = useState({});
     const [success, setSuccess] = useState(false);
